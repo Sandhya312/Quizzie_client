@@ -2,7 +2,7 @@ import { useState } from "react";
 import classes from "./addQuestions.module.css";
 import PropTypes from "prop-types";
 
-const AddQuestionBtn = ({questionCnt,setQuestionCnt}) => {
+const AddQuestionBtn = ({questionCnt,setQuestionCnt,setQuestionInstance}) => {
   // const [questionCnt, setQuestionCnt] = useState(1);
   const [buttonStates, setButtonStates] = useState([true, false, false, false, false]);
 
@@ -60,6 +60,12 @@ const AddQuestionBtn = ({questionCnt,setQuestionCnt}) => {
                 }
                 return prev;
               });
+              setQuestionInstance((prev) => {
+                if (prev < 5) {
+                  return prev + 1;
+                }
+                return prev;
+              });
             }}
           >
             <svg
@@ -90,6 +96,7 @@ const AddQuestionBtn = ({questionCnt,setQuestionCnt}) => {
 AddQuestionBtn.propTypes = {
   questionCnt: PropTypes.number.isRequired,
   setQuestionCnt: PropTypes.func.isRequired,
+  setQuestionInstance: PropTypes.func.isRequired,
 }
 
 export default AddQuestionBtn;

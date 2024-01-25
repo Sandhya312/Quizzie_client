@@ -21,7 +21,45 @@ const CreateQuiz = () => {
   const step2 = useSelector(state=>state.form.step2);
 
   //store created form data into this state
-  const [formData,setFormData] = useState({});
+  const [formData,setFormData] = useState({
+    "name":"",
+     "quizType":0,
+     "impressions":0,
+     "questions":[
+        {
+            "title":"",
+            "type":0,
+             "analysis":[
+                {},
+                {},
+                {}
+             ],
+            "options":[
+                {
+                    "value":[""],
+                    "correctOpt":false
+                },
+                {
+                    "value":[""],
+                    "correctOpt":false
+                },
+                {
+                    "value":[""],
+                    "correctOpt":false
+                },
+                {
+                    "value":[""],
+                    "correctOpt":false
+                }
+             ]
+             
+        }
+     ]
+
+});
+
+const [questionInstance,setQuestionInstance] = useState(1);
+
   const [step1Data,setStep1Data] = useState({});
 
   //function to fetch data from createquizInfo child component
@@ -32,6 +70,15 @@ const CreateQuiz = () => {
 
    }
 
+  //function to add new quesitons
+  const addQuestion = (data)=>{
+    setFormData((prev)=>{
+      prev.questions.push(data);
+      return prev;
+    })
+  }
+
+  
 //change name accroding to form name
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +96,7 @@ const CreateQuiz = () => {
   };
   
 
-  const stepArr=[<CreateQuizInfo fetchQuizInfo={fetchQuizInfo} key={0} />,<QnAQuiz handleFormSubmit={handleFormSubmit} key={1} />,<ShareLink key={3} />,<PollQuiz key={2} />]
+  const stepArr=[<CreateQuizInfo fetchQuizInfo={fetchQuizInfo} key={0} />,<QnAQuiz questions={formData.questions} questionInstance={questionInstance} addQuestion={addQuestion} setQuestionInstance={setQuestionInstance}  handleFormSubmit={handleFormSubmit} key={1} />,<ShareLink key={3} />,<PollQuiz key={2} />]
 
   const Modal_Styles = {
     width: "600px",
