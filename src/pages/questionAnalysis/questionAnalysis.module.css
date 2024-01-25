@@ -1,0 +1,44 @@
+
+
+.questionAnalysis{
+    padding: 80px;
+}
+
+.questionAnalysis .quiz_name{
+    color: #5076FF;
+font-family: Poppins;
+font-size: 40px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+
+.questionAnalysis .impression_created{
+    color: #FF5D01;
+font-family: Poppins;
+font-size: 15px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.questionAnalysis .questions{
+    padding: 50px 0;
+    width: 70rem;
+}
+
+
+.questionAnalysis .questions .questions_box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.questionAnalysis .questions .question .question_name{
+    color: #000;
+font-family: Poppins;
+font-size: 30px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}

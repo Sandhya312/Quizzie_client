@@ -1,0 +1,139 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Jomhuria&display=swap');
+
+.signupLogin{
+    background: #F2F2F2;
+    padding: 50px;
+    height: 100vh;
+}
+
+
+.signupLogin .register{
+    width: 70%;
+    min-height: 90%;
+    height:auto;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3%;
+    border-radius: 15px;
+background: #FFF;
+box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.15);
+}
+
+.signupLogin .register>h1{
+    color: #474444;
+font-family: Jomhuria;
+font-size: 100px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.signupLogin .register .registerBtns{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30rem;
+}
+
+.signupLogin .register .registerBtns button{
+    padding: 2%;
+    margin: 2%;
+    border: none;
+    outline: none;
+    display: flex;
+    height: 2rem;
+    width: 12rem;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #FFF;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+
+.signupLogin .register .registerBtns button:hover,.signupLogin .register .registerBtns button:active{
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 0px 50px 0px rgba(0, 25, 255, 0.24);
+}
+
+
+.signupLogin .register  .registerForm{
+    /* padding: 3%; */
+    width: 50rem;
+    height: auto;
+}
+
+.signupLogin .register  .registerForm .signupForm{
+    height: auto;
+    width: 100%;
+    padding: 3%;
+}
+
+.signupLogin .register  .registerForm .signupForm div{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.signupLogin .register  .registerForm .signupForm div input{
+    border: none;
+outline: none;
+    border-radius: 10px 10px 0px 0px;
+background: #F4F4F4;
+font-weight: 600;
+padding: 1.5%;
+margin: 2%;
+width: 30rem;
+
+}
+
+.signupLogin .register  .registerForm .signupForm div input.incorrect{
+    border-radius: 10px 10px 0px 0px;
+border: 1px solid #D60000;
+background: #F4F4F4;
+color:#D60000 ;
+}
+
+
+.signupLogin .register  .registerForm .signupForm div label{
+    color: #474444;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 2%;
+    text-align: right;
+    width: 14rem;
+
+}
+
+.submitBtn{
+    padding: 2%;
+    /* margin: 2%; */
+}
+
+.submitBtn .signupBtn{
+    color: #474444;
+font-family: Poppins;
+font-size: 1rem;
+cursor: pointer;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+background: #A9BCFF;
+padding: 2%;
+width:10rem;
+
+}
+
+
+
+

@@ -1,0 +1,78 @@
+.cross_btn_div{
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+    width: 100%;
+
+}
+
+.crossBtn{
+  background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.share_link_body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2%;
+}
+
+.share_link_body h3{
+    margin-top: 0;
+    color: #474444;
+text-align: center;
+font-family: Poppins;
+font-size: 2.3rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.share_link_body input{
+   border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    padding: 2%;
+    width: 100%;
+    height: 1.5rem;
+background: #EDEDED;
+color: #474444;
+font-family: Poppins;
+font-size: 1rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.share_link_btn_div{
+ display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+
+.share_link_btn{
+    border-radius: 10px;
+    background: #60B84B;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.25);
+    width: 15rem;
+    height: 3rem;
+    border: none;
+    outline: none;
+    color: #fff;
+font-family: Poppins;
+font-size: 1rem;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+    cursor: pointer;
+}
+
+.share_link_btn:hover{
+    background: #fff;
+    color: #474444;
+}

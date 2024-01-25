@@ -1,0 +1,141 @@
+
+
+.dashboard_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 50px;
+}
+
+.stats{
+    display:flex;
+    justify-content: center;
+    align-items: space-around;
+    width: 100%;
+    height: auto;
+    padding: 2%;
+}
+
+.stats div{
+    padding: 2%;
+    margin: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 278px;
+    height: 145px;
+    border-radius: 10px;
+background: #FFF;
+cursor: pointer;
+border: none;
+outline: none;
+}
+
+.stats div h4{
+font-family: Poppins;
+font-size: 30px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.stats div span{
+    font-size: 45px;
+}
+
+.stats div:nth-child(1){
+    color: #FF5D01;
+}
+.stats div:nth-child(2){
+    color: #60B84B;
+}
+
+.stats div:nth-child(3){
+    color: #5076FF;
+}
+
+.trending_quiz{
+    width: 100%;
+    height: auto;
+    padding: 2%;
+    text-align: left;
+}
+
+.trending_quiz h1{
+    color: #474444;
+font-family: Poppins;
+font-size: 35px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.trending_quiz_list{
+    display: grid;
+    padding: 2%;
+    row-gap:20px;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+
+.trending_quiz_list>div{
+    width: 200px;
+height: 70px;
+border-radius: 5px;
+background: #FFF;
+color: #474444;
+padding: 3%;
+margin: 2%;
+display: flex;
+justify-content: space-between;
+flex-direction: column;
+align-items: center;
+cursor: pointer;
+}
+
+.title_impression{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title_impression h4{
+    color: #474444;
+font-family: Poppins;
+font-size: 1rem;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.impressions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.impressions span{
+    color: #FF5D01;
+font-family: Poppins;
+font-size: 15px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.created_date{
+    color: #60B84B;
+font-family: Poppins;
+font-size: 11px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+
+

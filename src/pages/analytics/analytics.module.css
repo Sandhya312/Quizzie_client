@@ -1,0 +1,70 @@
+.analytics {
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  background: #ededed;
+}
+
+.analytics_heading h1 {
+  color: #5076ff;
+  font-family: Poppins;
+  font-size: 2.4rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+/* Table.css */
+.quiz_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+text-align: center;
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 40px; /* 250% */
+}
+
+.quiz_table th,
+.quiz_table td {
+  padding: 8px;
+  text-align: left;
+}
+
+tr {
+  border-radius: 10px;
+}
+
+.quiz_table th {
+  background-color: #5076ff;
+  color: #F4F4F4;
+
+
+ 
+}
+
+.quiz_table thead{
+    border-radius: 10rem; /* Border-radius for the table header */
+}
+
+.quiz_table tr:nth-child(even) {
+  background-color: #ededed;
+}
+
+.quiz_table tr:nth-child(odd) {
+  background-color: #b3c4ff;
+}
+
+
+.quiz_table button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}

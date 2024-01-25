@@ -1,0 +1,26 @@
+
+
+.questionAnalysisCard{
+    border-radius: 5px;
+    width: 250px;
+background: #FFF;
+display: flex;
+flex-direction: column;
+padding: 20px;
+margin: 20px 0;
+justify-content: center;
+align-items: center;
+}
+
+.questionAnalysisCard p{
+    color: #474444;
+font-family: Poppins;
+font-style: normal;
+font-size: 14px;
+font-weight: 500;
+line-height: normal;
+}
+
+.questionAnalysisCard .value{
+font-size: 30px;
+}

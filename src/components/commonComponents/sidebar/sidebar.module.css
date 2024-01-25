@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Jomhuria&display=swap');
+
+
+/* Sidebar.css */
+.sidebar {
+    position: fixed;
+    display: flex;
+    width: 200px;
+    height: 100%;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    color: #474444;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .logo h1{
+    color: #474444;
+    font-family: Jomhuria;
+    font-size: 70px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 15rem;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  a {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    color: #474444;
+font-family: Poppins;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+  }
+  
+  a:hover {
+    transition: all 0.3s ease-in-out;
+    height: 2.5rem;
+    border-radius: 10px;
+    background: #FFF;
+    padding: 2%;
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.12);
+    width: 10rem;
+   
+ }
+  
+  .logout{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+.logout a{
+    color: #474444;
+font-family: Poppins;
+font-size: 20px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+text-transform: uppercase;
+}
+
+
+ hr{
+    width: 10rem;
+    margin:1rem;
+
+}
