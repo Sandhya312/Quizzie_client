@@ -1,8 +1,119 @@
-import { createSlice } from "@reduxjs/toolkit";
-// import axios from "axios";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+const baseUrl = "https://quizzie-server.cyclic.app";
+
+//get all quiz
+export const getQuizs = createAsyncThunk(
+    "getQuizs",
+    async(data,{rejectWithValue})=>{
+      
+        try{
+         
+            const response = await axios.get(`${baseUrl}/auth/user/${data.userId}/myQuizs`,
+               { headers: { authorization: `Bearer ${data.token}` } }
+            );
+            const result = await response.data;
+            if(response.status===200){
+                return result;
+            }
+        }catch(err){
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+
+
+//single quiz
+export const getQuiz = createAsyncThunk(
+    "getQuiz", async(data,{rejectWithValue})=>{
+        try{
+            const response = await axios.get(`${baseUrl}/api/quiz/${data.quizId}`,
+            );
+            const result = await response.data;
+            if(response.status===200){
+                console.log(result);
+                return result;
+            }
+        }catch(err){
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+
+
+//single quiz analytics 
+export const getQuizAnalytics = createAsyncThunk(
+    "getQuizAnalytics", async(data,{rejectWithValue})=>{
+        try{
+            const response = await axios.get(`${baseUrl}/api/quiz/${data.id}/analytics`,
+            { headers: { authorization: `Bearer ${data.token}` } }
+            );
+            const result = await response.data;
+            if(response.status===200){
+                console.log(result);
+                return result;
+            }
+        }catch(err){
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+
+//set question analysis
+export const setQuestionAnalysis = createAsyncThunk(
+    "setQuestionAnalysis", async(data,{rejectWithValue})=>{
+        try{
+            const response = await axios.post(`${baseUrl}api/quiz/question/${data.id}/analysis`,data.analysis);
+            const result = await response.data;
+            if(response.status===200){
+                console.log(result);
+                return result;
+            }
+        }catch(err){
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+
+
+//delete quiz
+export const deleteQuiz = createAsyncThunk(
+    "deleteQuiz", async(data,{rejectWithValue})=>{
+        // const currentUser = quizSlice.getInitialState().currentUser;
+        // console.log("Current quizArr:", currentUser);
+        const tokeeen = quizSlice.getInitialState().token;
+        console.log("Current quizArr:", tokeeen);
+        try{
+         
+            const response = await axios.delete(`${baseUrl}/api/quiz/${data.quizId}`,
+            { headers: { authorization: `Bearer ${data.token}` } }
+            );
+            const result = await response.data;
+
+            console.log(result);
+            if(response.status===200){
+                return {result,quizId:data.quizId};
+            }
+
+        }
+        catch(err){
+
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
 
 
 const initialState = {
+     loading:false,
+     token:"",
+     currentUser:"",
+     error:"",
      quizArr:[
         {
             "name":"react quiz",
@@ -401,90 +512,126 @@ const initialState = {
         
         },
      ],
-     stats:{
-        quizCount:0,
-        questionCount:0,
-        Totalimpression:0
-        
-     }
+     quizs:[],
+     stats:{},
+     singleQuiz:{},
+     score:0,
+     analytics:{},
+     quizType:0, //0 for QnA type and 1 from Poll type
 }
 
 
 const quizSlice = createSlice({
     name:"quiz",
     initialState,
-    reducers:{
-        //create new quiz
-        addQuiz:(state,action)=>{
-            console.log(action.payload);
-            state.quizArr?.push(action.payload);
-            console.log(state.quizArr);
-        },
+    extraReducers:(builder)=>{
+            builder
 
-        //update quiz
-        updateQuiz:(state,action)=>{
-            const {_id,name,quizType,impression,questions} = action.payload;
-           const existingQuiz = state.quizArr.find((quiz)=>quiz._id===_id);
-           if(!existingQuiz){
-               return "quiz not found";
-           }
-            
-            existingQuiz.name=name;
-            existingQuiz.quizType=quizType;
-            existingQuiz.impression=impression;
-            existingQuiz.questions=questions;
-            
-            state.quizArr=state.quizArr.map((quiz)=>{
-                if(quiz._id===existingQuiz._id){
-                    quiz=existingQuiz;
-                }
-                return quiz;
+            .addCase(getQuizs.pending,(state)=>{
+                state.loading = true;
             })
 
+            .addCase(getQuizs.fulfilled,(state,action)=>{
+                console.log(action.payload);
+                state.stats = action.payload.stats;
+                 state.quizs = action.payload.quizs;
 
-        },
+                 state.loading=false;
+            
+            })
 
-        //delete quiz
-        deleteQuiz: (state,action)=>{
-            const {_id} = action.payload;
-            const existingQuiz = state.quizArr.find((quiz)=>quiz._id===_id);
-            if(!existingQuiz){
-                return "quiz not found";
-            }
-            state.quizArr=state.quizArr.filter((quiz)=>quiz._id!==_id);
-        },
+            .addCase(getQuizs.rejected,(state,action)=>{
+                state.error=action.payload;
+                console.log("505",state.error);
+                state.loading=false;
+
+            })
+
+            .addCase(deleteQuiz.pending,(state)=>{
+                state.loading=true;
+            })
+
+            .addCase(deleteQuiz.fulfilled,(state,action)=>{
+                console.log("495",action.payload);
+                const quizId =action.payload.quizId;
+                state.quizs = state.quizs.filter((quiz)=>quiz._id!==quizId);
+                console.log(state.quizs);
+                state.loading=false;
+            })
+
+            .addCase(deleteQuiz.rejected,(state,action)=>{
+                state.error=action.payload;
+                console.log("523",state.error);
+                state.loading=false;
+            })
+
+            .addCase(getQuiz.pending,(state)=>{
+                state.loading=true;
+            })
+
+            .addCase(getQuiz.fulfilled,(state,action)=>{
+                console.log(action.payload);
+                state.singleQuiz = action.payload;
+                state.loading=false;
+            })
+
+            .addCase(getQuiz.rejected,(state,action)=>{
+                state.error=action.payload;
+                console.log("537",state.error);
+                state.loading=false;
+            })
+            .addCase(setQuestionAnalysis.pending,(state)=>{
+                state.loading=true;
+            })
+
+            .addCase(setQuestionAnalysis.fulfilled,(state,action)=>{
+                console.log(action.payload);
+                state.loading=false;
+            })
+
+            .addCase(setQuestionAnalysis.rejected,(state,action)=>{
+                state.error=action.payload;
+                console.log("574",state.error);
+                state.loading=false;
+            })
+
+            .addCase(getQuizAnalytics.pending,(state)=>{
+                state.loading=true;
+            })
+
+            .addCase(getQuizAnalytics.fulfilled,(state,action)=>{
+                console.log(action.payload);
+                state.analytics = action.payload.analytics;
+                state.quizType = action.payload.quizType;
+                state.loading=false;
+            })
+
+            .addCase(getQuizAnalytics.rejected,(state,action)=>{
+                state.error=action.payload;
+                console.log("609",state.error);
+                state.loading=false;
+            })
+    },
+    reducers:{
         
-
-        //get single quiz
-        getQuiz:(state,action) =>{
-            const {_id} = action.payload;
-            const existingQuiz = state.quizArr.find((quiz)=>quiz._id===_id);
-            if(!existingQuiz){
-                return "quiz not found";
-            }
-            return existingQuiz;
-           
+        //set current user
+        setCurrentUser:(state,action)=>{
+            state.currentUser = action.payload;
         },
 
-        //get all quiz
-        getAllQuizs:(state)=>{
-            return state.quizArr;
+        //set token
+        setToken:(state,action)=>{
+            state.token = action.payload;
         },
-
-        getStats:(state)=>{
-            state.stats.quizCount=state.quizArr.length;
-            state.stats.questionCount= state.quizArr.reduce((acc, quiz) => acc + quiz.questions.length, 0);
-            state.stats.Totalimpression= state.quizArr.reduce((acc, quiz) => acc + quiz.impressions, 0);
-            return state.stats;
+        setScore:(state,action)=>{
+            state.score = action.payload;
+            console.log("score",state.score);
         }
 
-
-
-
-
+       
     }
 })
 
 
-export const {addQuiz,updateQuiz,deleteQuiz,getQuiz,getAllQuizs} = quizSlice.actions;
+export const { setToken,setCurrentUser,setScore} = quizSlice.actions;
 export default quizSlice.reducer;

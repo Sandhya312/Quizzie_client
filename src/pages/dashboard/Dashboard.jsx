@@ -3,8 +3,6 @@ import Sidebar from "../../components/commonComponents/sidebar/Sidebar";
 import { Outlet } from 'react-router-dom';
 
 const Dashaboard = () => {
-
-  
   return (
     <div style={{ height: "100%", background: "#EDEDED" }}>
       <Sidebar />

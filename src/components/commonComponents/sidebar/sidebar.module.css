@@ -42,7 +42,7 @@
     margin-bottom: 10px;
   }
   
-  a {
+  .sidebar ul li a {
     display: flex;
     justify-content: center;
     text-decoration: none;
@@ -54,7 +54,7 @@ font-weight: 600;
 line-height: normal;
   }
   
-  a:hover {
+  .sidebar ul li a:hover {
     transition: all 0.3s ease-in-out;
     height: 2.5rem;
     border-radius: 10px;
@@ -65,14 +65,17 @@ line-height: normal;
    
  }
   
-  .logout{
+ .sidebar  .logout{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
   }
 
-.logout a{
+  .sidebar .logout button{
+    background:none;
+    border:none;
+    outline:none;
     color: #474444;
 font-family: Poppins;
 font-size: 20px;
@@ -83,7 +86,7 @@ text-transform: uppercase;
 }
 
 
- hr{
+.sidebar  hr{
     width: 10rem;
     margin:1rem;
 

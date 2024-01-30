@@ -1,18 +1,22 @@
 import { useState } from "react";
 import classes from "./pollQuiz.module.css";
 import Options from "../options/Options";
-import Timer from "../timer/timer";
 import AddQuestionBtn from "../addQuestions/AddQuestionBtn";
 import { useDispatch } from "react-redux";
 import { modalActions } from "../../../store/modalSlice/modalSlice";
 import { formActions } from "../../../store/multistepSlice/formSlice";
-
+import { useNavigate } from "react-router-dom";
 const PollQuiz = () => {
 
   const dispatch=useDispatch();
+  const navigate = useNavigate();
 
   const onCloseHandler = () => {
     dispatch(modalActions.closeModal());
+    dispatch(formActions.resetStep());
+
+    navigate('/dashboard');
+
   }
 
   const [optType, setOptType] = useState("text"); // ["text","image","textImage"
@@ -97,8 +101,6 @@ const PollQuiz = () => {
                 {/* options */}
                 <Options optionType={optType} quizType="Poll" />
 
-                {/* timer */}
-                <Timer />
                
               </div>
               

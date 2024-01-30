@@ -3,24 +3,50 @@
 import classes from "./questionInterface.module.css";
 import Options from "../../options/Options";
 import Timer from "../../timer/Timer";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { modalActions } from "../../../../store/modalSlice/modalSlice";
  import { formActions } from "../../../../store/multistepSlice/formSlice";
+import Proptypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-
-
-const QuestionInterface = () =>{
+const QuestionInterface = ({questions,questionInstance,addQuestion}) =>{
 
     const dispatch=useDispatch();
+    const navigate = useNavigate();
 
     const onCloseHandler = () => {
         dispatch(modalActions.closeModal());
+    dispatch(formActions.resetStep());
+
+      navigate('/dashboard');
+
       }
 
     const [optType, setOptType] = useState("text"); // ["text","image","textImage"
     const [questName, setQuestName] = useState(""); 
+    const [options, setOptions] = useState([ {
+      "value":[""],
+      "correctOpt":false
+  },
+  {
+    "value":[""],
+    "correctOpt":false
+},
+])
 
+    useEffect(() => {
+      // Update local form data when the selected form instance changes
+      const selectedQuestion = questions[questionInstance];
+      console.log("questions:", questions);
+      console.log("questionInstance:", questionInstance);
+      console.log("selectedQuestion:", selectedQuestion);
+      setQuestName(selectedQuestion ? selectedQuestion.title || "" : "");
+      setOptions(selectedQuestion ? selectedQuestion.options || [] : [])
+    }, [questionInstance, questions]);
+
+
+    
 
     const handleOptionChange = (e) => {
         setOptType(e.target.value);
@@ -29,6 +55,20 @@ const QuestionInterface = () =>{
     
       const questionNameHandler = (e) => {
         setQuestName(e.target.value);
+         
+
+        //parent state update
+        addQuestion(   {
+          "title":questName,
+          "type":0,
+           "analysis":[
+              {},
+              {},
+              {}
+           ],
+          "options":options
+           
+      })
        console.log("question",questName);
         dispatch(formActions.setquestionTitle(e.target.value));
       }
@@ -95,7 +135,7 @@ const QuestionInterface = () =>{
 
           <div className={classes.option_timer}>
             {/* options */}
-            <Options optionType={optType} quizType="QnA" />
+            <Options setOptions={setOptions} options={options} questionInstance={questionInstance}  optionType={optType} quizType="QnA" />
 
             {/* timer */}
             <Timer />
@@ -119,6 +159,12 @@ const QuestionInterface = () =>{
 
         </div>
     )
+}
+
+QuestionInterface.propTypes = {
+    questions: Proptypes.array.isRequired,
+    questionInstance: Proptypes.number.isRequired,
+    addQuestion: Proptypes.func.isRequired,
 }
 
 

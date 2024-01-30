@@ -1,6 +1,46 @@
 import classes from "./dashboardContent.module.css";
+import { getQuizs } from "../../store/quizSlice/quizSlice";
+import { useDispatch,useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import Loader from '../commonComponents/loader/Loader';
+
 
 const DashboardContent = () => {
+
+  const dispatch = useDispatch();
+
+  // eslint-disable-next-line no-unused-vars
+  const [cookie,setCookie] =useCookies(['token']);
+  // eslint-disable-next-line no-unused-vars
+  const [cookieUser,setCookieUser] =useCookies(['user']);
+
+  const quizs = useSelector(state=>state.quizDb.quizs);
+  const loading = useSelector(state=>state.quizDb.loading);
+  const quizStats=useSelector(state=>state.quizDb.stats);
+
+  console.log("quizStats",quizStats);
+  
+  console.log("quizs",quizs);
+
+  useEffect(()=>{
+    dispatch(getQuizs({token:cookie['token'],userId:cookieUser['user']}));
+  },[cookie,cookieUser,dispatch])
+
+  const formatNumber=(number)=> {
+    const magnitude = Math.floor(Math.log10(number));
+  
+    if (magnitude < 3) {
+      // If the number is less than 1000, no conversion needed
+      return number.toString();
+    } else {
+      // If the number is greater than or equal to 1000, convert to "k" format
+      const divisor = Math.pow(10, magnitude - (magnitude % 3));
+      const formattedNumber = Math.floor(number / divisor);
+      return `${formattedNumber}k`;
+    }
+  }
+
   return (
     <div className={classes.dashboard_content}>
       {/* quiz stats */}
@@ -8,21 +48,21 @@ const DashboardContent = () => {
         {/* total no. of quiz created */}
         <div>
           <h4>
-            <span>12</span> Quiz Created
+            <span>{ quizStats.quizCount===0 || quizStats.quizCount==="" || Object.keys(quizStats).length === 0 ? 0 :formatNumber(quizStats.quizCount)}</span> Quiz Created
           </h4>
         </div>
 
         {/* total no. of questions created */}
         <div>
           <h4>
-            <span>12</span> Questions Created
+            <span>{quizStats.questionCount===0 || quizStats.questionCount==="" || Object.keys(quizStats).length === 0 ? 0 : formatNumber(quizStats.questionCount)}</span> Questions Created
           </h4>
         </div>
 
         {/* total impressions */}
         <div>
           <h4>
-            <span>12K</span> Total Impressions
+            <span>{quizStats.Totalimpression===0 || quizStats.Totalimpression ==="" || Object.keys(quizStats).length === 0 ? 0 : formatNumber(quizStats.Totalimpression)}</span> Total Impressions
           </h4>
         </div>
       </div>
@@ -33,17 +73,20 @@ const DashboardContent = () => {
         <h1>Trending Quiz</h1>
         {/* trending quiz list */}
         <div className={classes.trending_quiz_list}>
-          {Array.from({ length: 50}).map((_, index) => (
+        {loading && <Loader />}
+        {!loading && quizs.length===0 && <h1 style={{color:"#FF4B4B"}}>No Quiz Created</h1>}
+        {!loading && quizs.length!==0 && quizs.map((quiz,index)=>{
+            return (
             <div key={index}>
               <div className={classes.title_impression}>
                 {/* quiz name */}
-                <h4>Quiz{index + 1} </h4>
+                <h4>{quiz.name}</h4>
 
                 {/* quiz impression */}
                 <div className={classes.impressions}>
                   <span style={{
                     margin:'2px'
-                  }}>234</span>
+                  }}>{quiz.impressions}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -76,10 +119,12 @@ const DashboardContent = () => {
 
               {/* created date */}
               <p className={classes.created_date}>
-                created on : <span>04 sep, 2023</span>
+                created on : <span>{quiz.createdTime}</span>
               </p>
             </div>
-          ))}
+            )
+          })
+         }
         </div>
       </div>
     </div>

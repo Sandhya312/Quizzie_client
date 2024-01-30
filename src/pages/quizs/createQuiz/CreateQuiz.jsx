@@ -17,7 +17,7 @@ const CreateQuiz = () => {
 
   const currentStep = useSelector(state=>state.form.currentStep);
   const quizType = useSelector(state=>state.form.quizType);
-  const step1 = useSelector(state=>state.form.step1);
+  // const step1 = useSelector(state=>state.form.step1);
   const step2 = useSelector(state=>state.form.step2);
 
   //store created form data into this state
@@ -58,7 +58,7 @@ const CreateQuiz = () => {
 
 });
 
-const [questionInstance,setQuestionInstance] = useState(1);
+const [questionInstance,setQuestionInstance] = useState(0);
 
   const [step1Data,setStep1Data] = useState({});
 
@@ -73,7 +73,7 @@ const [questionInstance,setQuestionInstance] = useState(1);
   //function to add new quesitons
   const addQuestion = (data)=>{
     setFormData((prev)=>{
-      prev.questions.push(data);
+      prev.questions[questionInstance]=data;
       return prev;
     })
   }
@@ -112,7 +112,11 @@ const [questionInstance,setQuestionInstance] = useState(1);
         <Modal styles={Modal_Styles}>
         {
           currentStep !==2 && (
-            <form onSubmit={handleFormSubmit}>
+            <form 
+             style={{
+              height:"100%"
+             }}
+            onSubmit={handleFormSubmit}>
       
             { currentStep==0 && stepArr[currentStep]}
             { (currentStep===1 && quizType===0) && stepArr[1]}

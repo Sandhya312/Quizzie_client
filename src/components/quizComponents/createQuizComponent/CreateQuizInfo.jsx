@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Proptypes from "prop-types";
 import classes from "./createQuizInfo.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { modalActions } from "../../../store/modalSlice/modalSlice";
 import { formActions } from "../../../store/multistepSlice/formSlice";
-
+import { useNavigate } from "react-router-dom";
 
 const CreateQuizInfo = ({fetchQuizInfo}) => {
 
@@ -12,9 +12,14 @@ const CreateQuizInfo = ({fetchQuizInfo}) => {
   const [quizName, setQuizName] = useState(""); // [0,1
      
   const dispatch=useDispatch();
+  const navigate = useNavigate();
+ 
+
 
   const onCloseHandler = () => {
     dispatch(modalActions.closeModal());
+    dispatch(formActions.resetStep());
+    navigate('/dashboard');
   }
 
 
@@ -44,7 +49,14 @@ const CreateQuizInfo = ({fetchQuizInfo}) => {
 
 
   return (
-    <div>
+    <div 
+     style={{
+      height:"100%",
+      display:"flex",
+      flexDirection:"column",
+      justifyContent:"space-evenly"
+     }}
+    >
             <input
               value={quizName}
               className={classes.quiz_name}

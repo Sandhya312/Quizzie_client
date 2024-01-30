@@ -21,7 +21,10 @@ const AddQuestionBtn = ({questionCnt,setQuestionCnt,setQuestionInstance}) => {
           {Array.from({ length: questionCnt }).map((_, index) => (
             <div key={index}>
               <button
-              onClick={()=>handleButtonClick(index)}
+              onClick={()=>{handleButtonClick(index)
+                setQuestionInstance(index);
+                 }
+              }
               type="button" 
               className={buttonStates[index] ? classes.question_Number + " " + classes.active_question : classes.question_Number}
                style={{

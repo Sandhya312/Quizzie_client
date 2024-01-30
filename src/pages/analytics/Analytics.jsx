@@ -1,32 +1,53 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState,useEffect } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import classes from "./analytics.module.css";
-import { useDispatch } from "react-redux";
+import { getQuizs,getQuiz } from "../../store/quizSlice/quizSlice";
+import { useDispatch,useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 import { modalActions } from  "../../store/modalSlice/modalSlice";
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import Loader from "../../components/commonComponents/loader/Loader";
 const Analytics = () => {
 
   const navigate=useNavigate();
 
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+
+  // eslint-disable-next-line no-unused-vars
+  const [cookie,setCookie] =useCookies(['token']);
+  // eslint-disable-next-line no-unused-vars
+  const [cookieUser,setCookieUser] =useCookies(['user']);
+
+  const quizs = useSelector(state=>state.quizDb.quizs);
+  const loading = useSelector(state=>state.quizDb.loading);
+  const quizStats=useSelector(state=>state.quizDb.stats);
+
+  console.log("quizStats",quizStats);
+  
+  console.log("quizs",quizs);
+
+
+  useEffect(()=>{
+    dispatch(getQuizs({token:cookie['token'],userId:cookieUser['user']}));
+  },[cookie,cookieUser,dispatch,quizs.length])
+
+
 
  const updateHandler=() =>{
   dispatch(modalActions.openModal());
   navigate('/dashboard/create-quiz');
  }
 
- const deleteHandler =()=>{
+ const deleteHandler =(id)=>{
   dispatch(modalActions.openModal());
-  navigate('/dashboard/delete-quiz');
+  navigate(`/quiz/${id}/delete`);
  }
 
   const [isCopied, setIsCopied] = useState(false);
-  const [text, setText] = useState(
-    "https://quiziee.com/quiz/565440394958548594"
-  );
+
 
   const notify = () =>
     toast("✔️Link Copied!", {
@@ -36,33 +57,28 @@ const Analytics = () => {
 
   const handleCopy = () => {
     setIsCopied(true);
-    setText(";skdfj;dskjf");
     notify();
     setTimeout(() => {
       setIsCopied(false);
     }, 3000);
   };
 
-  const quizData = [
-    { id: 1, name: "Quiz 1", createdOn: "2022-01-01", impression: 100 },
-    { id: 2, name: "Quiz 2", createdOn: "2022-02-01", impression: 150 },
-    { id: 3, name: "Quiz 3", createdOn: "2022-03-01", impression: 120 },
-    { id: 4, name: "Quiz 1", createdOn: "2022-01-01", impression: 100 },
-    { id: 5, name: "Quiz 2", createdOn: "2022-02-01", impression: 150 },
-    { id: 6, name: "Quiz 3", createdOn: "2022-03-01", impression: 120 },
-    { id: 7, name: "Quiz 1", createdOn: "2022-01-01", impression: 100 },
-    { id: 8, name: "Quiz 2", createdOn: "2022-02-01", impression: 150 },
-    { id: 9, name: "Quiz 3", createdOn: "2022-03-01", impression: 120 },
-    // Add more quiz entries as needed
-  ];
+  const singleQuiz = (id) =>{
+     console.log("id",id);
+     dispatch(getQuiz({quizId:id,token:cookie['token']}));
+  }
+
 
   return (
     <div className={classes.analytics}>
       <div className={classes.analytics_heading}>
         <h1>Quiz Analysis</h1>
       </div>
-      <p>{isCopied}</p>
-      <div className={classes.analytics_body}>
+      {loading && <Loader/>}
+      {!loading && quizs.length===0 && <h1 style={{color:"#FF4B4B"}}>No Quiz Created</h1>}
+
+      {!loading && quizs.length!==0 && (
+        <div className={classes.analytics_body}>
         <table className={classes.quiz_table}>
           <thead>
             <tr>
@@ -75,15 +91,15 @@ const Analytics = () => {
             </tr>
           </thead>
           <tbody>
-            {quizData.map((quiz, index) => (
+            {quizs.map((quiz, index) => (
               <tr
-                key={quiz.id}
+                key={index}
                 className={index % 2 === 0 ? "even-row" : "odd-row"}
               >
                 <td>{index + 1}</td>
                 <td>{quiz.name}</td>
-                <td>{quiz.createdOn}</td>
-                <td>{quiz.impression}</td>
+                <td>{quiz.createdTime}</td>
+                <td>{quiz.impressions}</td>
                 <td>
                   {/* Button for edit quiz */}
                   <button onClick={updateHandler}>
@@ -101,7 +117,7 @@ const Analytics = () => {
                       />
                     </svg>
                   </button>
-                  <button onClick={deleteHandler}>
+                  <button onClick={()=>deleteHandler(quiz._id)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -116,8 +132,8 @@ const Analytics = () => {
                     </svg>
                   </button>
 
-                  <CopyToClipboard text={text} onCopy={handleCopy}>
-                    <button>
+                  <CopyToClipboard text={`https://quizzie/quiz/${quiz._id}` } onCopy={handleCopy}>
+                    <button >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -135,12 +151,15 @@ const Analytics = () => {
 
                   <ToastContainer />
                 </td>
-                <td>Question Wise Analysis</td>
+                <td>
+                  <Link className={classes.questAnalytics} to={`/dashboard/quiz/${quiz._id}/analytics`} >Question Wise Analysis</Link>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      )}
 
     </div>
   );

@@ -68,3 +68,7 @@ tr {
     outline: none;
     cursor: pointer;
 }
+
+.quiz_table .questAnalytics{
+  color: black;
+}

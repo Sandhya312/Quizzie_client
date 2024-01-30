@@ -1,16 +1,28 @@
+/* eslint-disable no-unused-vars */
 // Sidebar.js
 import { useDispatch } from 'react-redux';
-import { authActions } from '../../../store/authSlice/authSlice';
+import { authActions,logoutUser } from '../../../store/authSlice/authSlice';
 import { modalActions } from '../../../store/modalSlice/modalSlice';
 import classes from  './sidebar.module.css';
 import { NavLink } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+
+  const [cookie,removeCookie] = useCookies(['token']);
+  const [cookieUser,removeCookieUser] = useCookies(['user']);
       
     const dispatch= useDispatch();
+
+    const navigate = useNavigate();
     
     const logouthandler=()=>{
-         dispatch(authActions.logout());
+        removeCookie('token');
+        removeCookieUser('user');
+        dispatch(logoutUser());
+        //  dispatch(authActions.logout());
+         navigate('/');
     }
 
     const ModalHandler=()=>{
