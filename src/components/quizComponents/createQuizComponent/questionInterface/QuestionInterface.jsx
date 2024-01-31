@@ -49,7 +49,6 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
   useEffect(()=>{
 
      const optarr= options.filter((option)=>option.value[0] !== "");
-     console.log(optarr);
 
     addQuestion({
       title: questName,
