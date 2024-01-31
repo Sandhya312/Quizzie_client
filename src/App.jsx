@@ -15,6 +15,8 @@ import CongratualationInterface from './pages/quizs/score/congoInterface';
 import { useCookies } from 'react-cookie';
 import ThankYou from './pages/quizs/score/ThankYou';
 import QuestionAnalysis from './pages/questionAnalysis/QuestionAnalysis';
+
+
 const ProtectedRoute = ({children} ) => {
   const navigate = useNavigate();
   const [cookie,setCookie] =useCookies(['token']);
@@ -38,7 +40,7 @@ function App() {
     <div style={{'height':'100vh'}}>
         <Routes>
           <Route path='/' index element={ <Register/>} />
-          <Route path='dashboard'
+          <Route path='/dashboard'
           element={ <ProtectedRoute>
              <Dashaboard />
           </ProtectedRoute> }
@@ -49,17 +51,17 @@ function App() {
             <Route path='analytics' element = { <ProtectedRoute><Analytics  /></ProtectedRoute> } />
             <Route path='quiz/:id/analytics' element={<ProtectedRoute><QuestionAnalysis /></ProtectedRoute> } />
             <Route path='create-quiz' element = {<ProtectedRoute><CreateQuiz /></ProtectedRoute> } />
-            <Route path='*' element={<div>
+         
+
+          </Route>
+          <Route path='/quiz/:id/delete' element = {<ProtectedRoute><DeleteQuiz /></ProtectedRoute> } />
+          <Route path='/quiz/:id' element={<QuizInterface /> } />
+          <Route path='/score' element={ <CongratualationInterface />} />
+          <Route path='/thankyou' element={ <ThankYou />} />
+          <Route path='*' element={<div>
               <h1>404</h1>
               <p>Page not found</p>
             </div>} />
-
-          </Route>
-          <Route path='quiz/:id/delete' element = {<ProtectedRoute><DeleteQuiz /></ProtectedRoute> } />
-          <Route path='quiz/:id' element={<QuizInterface /> } />
-          <Route path='score' element={ <CongratualationInterface />} />
-          <Route path='thankyou' element={ <ThankYou />} />
-
          
         </Routes>
 
