@@ -10,7 +10,7 @@ const  Timer = () =>{
      
      const dispatch = useDispatch();
 
-     const [selectedTimer,setSelectedTimer] = useState('0');
+     const [selectedTimer,setSelectedTimer] = useState(0);
 
   const timerClasses = classes.timerValue + " " + classes.selectedTimer;
 
@@ -21,13 +21,13 @@ const  Timer = () =>{
         <div className={classes.timers}>
           <input
             type="text"
-            name={selectedTimer==="0"? "timer":""}
-            className={selectedTimer === "0" ? timerClasses : classes.timerValue}
+            name={selectedTimer===0? "timer":""}
+            className={selectedTimer === 0 ? timerClasses : classes.timerValue}
             id="timer0"
             value="OFF"
             readOnly
             onClick={()=>{
-              setSelectedTimer('0');
+              setSelectedTimer(0);
               dispatch(formActions.setTimer(0))
               
             }
@@ -35,26 +35,26 @@ const  Timer = () =>{
           />
           <input
             type="text"
-            className={selectedTimer === "5" ? timerClasses : classes.timerValue}
+            className={selectedTimer === 5 ? timerClasses : classes.timerValue}
             id="timer1"
-            name={selectedTimer==="5"? "timer":""}
+            name={selectedTimer===5? "timer":""}
             value="5 sec"
             readOnly
             onClick={()=>{
-              setSelectedTimer('5');
+              setSelectedTimer(5);
               dispatch(formActions.setTimer(5))
             }
             }
           />
           <input
             type="text"
-            className={selectedTimer === "10" ? timerClasses : classes.timerValue}
+            className={selectedTimer === 10 ? timerClasses : classes.timerValue}
             id="timer2"
-            name={selectedTimer==="10"? "timer":""}
+            name={selectedTimer===10? "timer":""}
             value="10 sec"
             readOnly
             onClick={()=>{
-              setSelectedTimer('10')
+              setSelectedTimer(10)
               dispatch(formActions.setTimer(10))
             }}
           />

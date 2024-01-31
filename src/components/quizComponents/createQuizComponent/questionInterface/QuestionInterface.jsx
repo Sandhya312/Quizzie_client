@@ -24,7 +24,6 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
   const [quizType, setQuizType] = useState("QnA");
   const [optType, setOptType] = useState("text"); // ["text","image","textImage"
   const [questName, setQuestName] = useState("");
-  const [singleopt, setSigleOpt] = useState([""]);
 
   //local state to store option - array of options and values - array of option vlaues
   const [options, setOptions] = useState([
@@ -48,6 +47,10 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
 
 
   useEffect(()=>{
+
+     const optarr= options.filter((option)=>option.value[0] !== "");
+     console.log(optarr);
+
     addQuestion({
       title: questName,
       type: 0,
@@ -56,33 +59,18 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
     });
   },[options,questName,addQuestion])
 
+  
+
   useEffect(() => {
     // Update local form data when the selected form instance changes
     console.log("questions:", questions);
     console.log("questionInstance:", questionInstance);
-    console.log(questions[1]);
+    console.log(questions[questionInstance]);
     const selectedQuestion = questions[questionInstance];
    
     console.log("selectedQuestion:", selectedQuestion);
     setQuestName(selectedQuestion ? selectedQuestion.title || "" : "");
-    setOptions(selectedQuestion ? selectedQuestion.options || [
-      {
-        value: [""],
-        correctOpt: false,
-      },
-      {
-        value: [""],
-        correctOpt: false,
-      },
-      {
-        value: [""],
-        correctOpt: false,
-      },
-      {
-        value: [""],
-        correctOpt: false,
-      },
-    ] : [
+    setOptions(selectedQuestion ? selectedQuestion.options : [
       {
         value: [""],
         correctOpt: false,
@@ -100,7 +88,8 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
         correctOpt: false,
       },
     ]);
-  }, [questionInstance, questions]);
+    console.log("optins", options);
+  }, [questionInstance, questions, options]);
 
   const handleOptionChange = (e) => {
     setOptType(e.target.value);
@@ -122,25 +111,80 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
     
     if(optType === 'text') {
       setOptions((prevOptions) => {
-        prevOptions[indexValue].value[0] += value;
-        return prevOptions;
+        return prevOptions.map((option, index) => {
+          if (index === indexValue) {
+            return {
+              ...option,
+              value: [value], // Replace the existing array with a new array containing the current value
+            };
+          }
+          return option;
+        });
       });
     }
 
     if(optType === 'image'){
       setOptions((prevOptions) => {
-        console.log('prevOptions',prevOptions)
-        prevOptions[indexValue].value[0] += value;
-        return prevOptions;
+        return prevOptions.map((option, index) => {
+          if (index === indexValue) {
+            return {
+              ...option,
+              value: [value], // Replace the existing array with a new array containing the current value
+            };
+          }
+          return option;
+        });
       });
     }
 
-    if(optType === 'text_image'){
-      console.log('Text Image Selected')
+    if(optType === 'text_Image'){
+      console.log('Text Image Selected');
+      setOptions((prevOptions) => {
+        return prevOptions.map((option, index) => {
+          if (index === indexValue) {
+            return {
+              ...option,
+              value: [value], // Replace the existing array with a new array containing the current value
+            };
+          }
+          return option;
+        });
+      });
     }
+
+    console.log('133',options)
     
   };
 
+
+  const imageInputHandler = (e)=>{
+    const valuee = e.target.value;
+    console.log('value',valuee);
+    const indexValue = parseInt(e.target.id);
+    setOptions((prevOptions) => {
+      return prevOptions.map((option, index) => {
+        if (index === indexValue) {
+          return {
+            ...option,
+            //push new value at index 1 of value array
+            value: [option.value[0],valuee],
+      
+          };
+        }
+        return option;
+      });
+    });
+    // setOptions((prevOptions) => {
+    //   console.log('prevOptions',prevOptions[indexValue].value,prevOptions[indexValue]?.value[1])
+    //   if(prevOptions[indexValue].value.length === 1){
+    //     prevOptions[indexValue].value.push("");
+    //   }
+    //   prevOptions[indexValue].value[1] = value;
+    //   console.log('prevOptions',prevOptions[indexValue].value,prevOptions[indexValue]?.value[1])
+
+    //   return prevOptions;
+    // });
+  }
  
   
 
@@ -317,18 +361,20 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
                     }}
                   >
                     <input
-                      onChange={optionHandler(index)}
+                      onChange={optionHandler}
                       type="text"
                       name={`option${index + 1}_text`}
-                      value={options[index]?.value[0] || ""}
+                      value={options[index] ? options[index].value[0] : ""}
+                      id={index}
                       className={classes.option_input}
                       placeholder="Text"
                     />
                     <input
-                      onChange={optionHandler}
+                      onChange={imageInputHandler}
                       type="url"
                       name={`option${index + 1}_image`}
-                      value={options[index]?.value[1] || ""}
+                      value={options[index] ? options[index].value[1] : ""}
+                      id={index}
                       className={classes.option_input}
                       placeholder="Image URL"
                     />

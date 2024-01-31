@@ -62,11 +62,14 @@ export const getQuizAnalytics = createAsyncThunk(
     }
 )
 
-//set question analysis
-export const setQuestionAnalysis = createAsyncThunk(
-    "setQuestionAnalysis", async(data,{rejectWithValue})=>{
+
+//create quiz
+export const createQuiz = createAsyncThunk(
+    "createQuiz", async(data,{rejectWithValue})=>{
         try{
-            const response = await axios.post(`${baseUrl}api/quiz/question/${data.id}/analysis`,data.analysis);
+            const response = await axios.post(`${baseUrl}/api/quiz/createquiz`,data.quiz,
+            { headers: { authorization: `Bearer ${data.token}` } }
+            );
             const result = await response.data;
             if(response.status===200){
                 console.log(result);
@@ -78,6 +81,25 @@ export const setQuestionAnalysis = createAsyncThunk(
         }
     }
 )
+
+//set question analysis
+export const setQuestionAnalysis = createAsyncThunk(
+    "setQuestionAnalysis", async(data,{rejectWithValue})=>{
+        try{
+            const response = await axios.post(`${baseUrl}/api/quiz/question/${data.id}/analysis`,data.analysis);
+            const result = await response.data;
+            if(response.status===200){
+                console.log(result);
+                return result;
+            }
+        }catch(err){
+            console.log(err);
+            return rejectWithValue(err.response.data);
+        }
+    }
+)
+
+
 
 
 //delete quiz
@@ -114,404 +136,404 @@ const initialState = {
      token:"",
      currentUser:"",
      error:"",
-     quizArr:[
-        {
-            "name":"react quiz",
-             "quizType":0,
-             "impressions":0,
-             "questions":[
-                {
-                    "title":"what is redux in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management"],
-                            "correctOpt":true
-                        },
-                        {
-                            "value":["alternative of context api"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["hook"],
-                            "correctOpt":false
-                        }
-                     ]
+    //  quizArr:[
+    //     {
+    //         "name":"react quiz",
+    //          "quizType":0,
+    //          "impressions":0,
+    //          "questions":[
+    //             {
+    //                 "title":"what is redux in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management"],
+    //                         "correctOpt":true
+    //                     },
+    //                     {
+    //                         "value":["alternative of context api"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["hook"],
+    //                         "correctOpt":false
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"what is contextapi in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management"],
-                            "correctOpt":true
-                        },
-                        {
-                            "value":["alternative of use reducer"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["this is not a hook"],
-                            "correctOpt":false
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"what is contextapi in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management"],
+    //                         "correctOpt":true
+    //                     },
+    //                     {
+    //                         "value":["alternative of use reducer"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["this is not a hook"],
+    //                         "correctOpt":false
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"what is hooks in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management","image1.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["alternative of use reducer","image2.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important","image3.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["this is a hook","image4.png"],
-                            "correctOpt":true
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"what is hooks in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management","image1.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["alternative of use reducer","image2.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important","image3.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["this is a hook","image4.png"],
+    //                         "correctOpt":true
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"Choose the correct image in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["image1.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image2.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image3.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image4.png"],
-                            "correctOpt":true
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"Choose the correct image in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["image1.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image2.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image3.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image4.png"],
+    //                         "correctOpt":true
+    //                     }
+    //                  ]
                      
-                }
-             ]
+    //             }
+    //          ]
         
-        },
-        {
-            "name":"mongoDb quiz",
-             "quizType":0,
-             "impressions":0,
-             "questions":[
-                {
-                    "title":"what is redux in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management"],
-                            "correctOpt":true
-                        },
-                        {
-                            "value":["alternative of context api"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["hook"],
-                            "correctOpt":false
-                        }
-                     ]
+    //     },
+    //     {
+    //         "name":"mongoDb quiz",
+    //          "quizType":0,
+    //          "impressions":0,
+    //          "questions":[
+    //             {
+    //                 "title":"what is redux in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management"],
+    //                         "correctOpt":true
+    //                     },
+    //                     {
+    //                         "value":["alternative of context api"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["hook"],
+    //                         "correctOpt":false
+    //                     }
+    //                  ]
                      
-                }
-             ]
+    //             }
+    //          ]
         
-        },
-        {
-            "name":"react quiz",
-             "quizType":0,
-             "impressions":0,
-             "questions":[
-                {
-                    "title":"what is redux in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management"],
-                            "correctOpt":true
-                        },
-                        {
-                            "value":["alternative of context api"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["hook"],
-                            "correctOpt":false
-                        }
-                     ]
+    //     },
+    //     {
+    //         "name":"react quiz",
+    //          "quizType":0,
+    //          "impressions":0,
+    //          "questions":[
+    //             {
+    //                 "title":"what is redux in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management"],
+    //                         "correctOpt":true
+    //                     },
+    //                     {
+    //                         "value":["alternative of context api"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["hook"],
+    //                         "correctOpt":false
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"what is contextapi in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management"],
-                            "correctOpt":true
-                        },
-                        {
-                            "value":["alternative of use reducer"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["this is not a hook"],
-                            "correctOpt":false
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"what is contextapi in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management"],
+    //                         "correctOpt":true
+    //                     },
+    //                     {
+    //                         "value":["alternative of use reducer"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["this is not a hook"],
+    //                         "correctOpt":false
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"what is hooks in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management","image1.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["alternative of use reducer","image2.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important","image3.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["this is a hook","image4.png"],
-                            "correctOpt":true
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"what is hooks in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management","image1.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["alternative of use reducer","image2.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important","image3.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["this is a hook","image4.png"],
+    //                         "correctOpt":true
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"Choose the correct image in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["image1.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image2.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image3.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image4.png"],
-                            "correctOpt":true
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"Choose the correct image in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["image1.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image2.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image3.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image4.png"],
+    //                         "correctOpt":true
+    //                     }
+    //                  ]
                      
-                }
-             ]
+    //             }
+    //          ]
         
-        },
-        {
-            "name":"express quiz",
-             "quizType":1,
-             "impressions":0,
-             "questions":[
-                {
-                    "title":"what is redux in express?",
-                    "type":1,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management"],
-                            "correctOpt":true
-                        },
-                        {
-                            "value":["alternative of context api"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["hook"],
-                            "correctOpt":false
-                        }
-                     ]
+    //     },
+    //     {
+    //         "name":"express quiz",
+    //          "quizType":1,
+    //          "impressions":0,
+    //          "questions":[
+    //             {
+    //                 "title":"what is redux in express?",
+    //                 "type":1,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management"],
+    //                         "correctOpt":true
+    //                     },
+    //                     {
+    //                         "value":["alternative of context api"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["hook"],
+    //                         "correctOpt":false
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"what is contextapi in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management"],
-                            "correctOpt":true
-                        },
-                        {
-                            "value":["alternative of use reducer"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["this is not a hook"],
-                            "correctOpt":false
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"what is contextapi in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management"],
+    //                         "correctOpt":true
+    //                     },
+    //                     {
+    //                         "value":["alternative of use reducer"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["this is not a hook"],
+    //                         "correctOpt":false
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"what is hooks in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["state management","image1.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["alternative of use reducer","image2.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["not much important","image3.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["this is a hook","image4.png"],
-                            "correctOpt":true
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"what is hooks in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["state management","image1.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["alternative of use reducer","image2.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["not much important","image3.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["this is a hook","image4.png"],
+    //                         "correctOpt":true
+    //                     }
+    //                  ]
                      
-                },
-                {
-                    "title":"Choose the correct image in react?",
-                    "type":0,
-                     "analysis":[
-                        {"peopple attepted":87},
-                        {"people attempted correct":4},
-                        {"people attemped incorrect":32}
-                     ],
-                    "options":[
-                        {
-                            "value":["image1.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image2.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image3.png"],
-                            "correctOpt":false
-                        },
-                        {
-                            "value":["image4.png"],
-                            "correctOpt":true
-                        }
-                     ]
+    //             },
+    //             {
+    //                 "title":"Choose the correct image in react?",
+    //                 "type":0,
+    //                  "analysis":[
+    //                     {"peopple attepted":87},
+    //                     {"people attempted correct":4},
+    //                     {"people attemped incorrect":32}
+    //                  ],
+    //                 "options":[
+    //                     {
+    //                         "value":["image1.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image2.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image3.png"],
+    //                         "correctOpt":false
+    //                     },
+    //                     {
+    //                         "value":["image4.png"],
+    //                         "correctOpt":true
+    //                     }
+    //                  ]
                      
-                }
-             ]
+    //             }
+    //          ]
         
-        },
-     ],
+    //     },
+    //  ],
      quizs:[],
      stats:{},
      singleQuiz:{},
@@ -609,6 +631,21 @@ const quizSlice = createSlice({
             .addCase(getQuizAnalytics.rejected,(state,action)=>{
                 state.error=action.payload;
                 console.log("609",state.error);
+                state.loading=false;
+            })
+
+            .addCase(createQuiz.pending,(state)=>{
+                state.loading=true;
+            })
+
+            .addCase(createQuiz.fulfilled,(state,action)=>{
+                console.log(action.payload);
+                state.loading=false;
+            })
+
+            .addCase(createQuiz.rejected,(state,action)=>{
+                state.error=action.payload;
+                console.log("648",state.error);
                 state.loading=false;
             })
     },

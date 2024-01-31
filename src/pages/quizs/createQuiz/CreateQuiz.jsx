@@ -6,17 +6,21 @@ import ShareLink from '../../../components/quizComponents/linkShare/ShareLink';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from '../../../components/commonComponents/modal/modal.jsx';
 import { formActions } from '../../../store/multistepSlice/formSlice.js';
+import {createQuiz} from '../../../store/quizSlice/quizSlice.js';
 import { useState } from 'react';
-
+import { useCookies } from 'react-cookie';
 
 const CreateQuiz = () => {
 
   const dispatch = useDispatch();
+  const [cookies, setCookie] = useCookies(['token']);
+  const [cookieUser, setCookieUser] = useCookies(['user']);
 
   const isOpen = useSelector((state) => state.modal.isOpen);
 
   const currentStep = useSelector(state=>state.form.currentStep);
   const quizType = useSelector(state=>state.form.quizType);
+  
   // const step1 = useSelector(state=>state.form.step1);
   const step2 = useSelector(state=>state.form.step2);
 
@@ -25,6 +29,8 @@ const CreateQuiz = () => {
     "name":"",
      "quizType":0,
      "impressions":0,
+     "createdBy":"",
+     "timer":0,
      "questions":[
         {
             "title":"",
@@ -58,6 +64,7 @@ const CreateQuiz = () => {
 
 });
 
+
 const [questionInstance,setQuestionInstance] = useState(0);
 
   const [step1Data,setStep1Data] = useState({});
@@ -65,6 +72,11 @@ const [questionInstance,setQuestionInstance] = useState(0);
   //function to fetch data from createquizInfo child component
    const fetchQuizInfo = (data)=>{
       // dispatch(formActions.setStep1(data));
+  
+       setFormData((prev)=>{
+         prev.name=data.quizName;
+         return prev;
+       })
       setStep1Data(data);
       console.log("data",data,step1Data);
 
@@ -87,12 +99,33 @@ const [questionInstance,setQuestionInstance] = useState(0);
     console.log("step2",step2);
     dispatch(formActions.nextStep());
     // Accessing form data using FormData
-    const formData = new FormData(e.target);
+    const formDataa = new FormData(e.target);
+
   
+    let timer;
     // Logging form data
-    formData.forEach((value, key) => {
+    formDataa.forEach((value, key) => {
       console.log(`${key}: ${value}` + " " + "form data");
+     
+      if(key==='timer'){
+        timer=value;
+      }
     });
+  
+    setFormData((prev)=>{
+      prev.timer=timer;
+      prev.createdBy=cookieUser.user;
+      return prev;
+    })
+
+    console.log("form data state",formData,cookies.token,cookieUser.user);
+    
+
+
+    dispatch(createQuiz({quiz:formData,token:cookies.token})).then((res)=>{
+      console.log("res",res);
+    });
+
   };
   
 
