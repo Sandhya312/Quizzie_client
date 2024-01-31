@@ -30,9 +30,9 @@ const QuizInterface = () => {
     
        {loading && <Loader/>}
       {error && <h1>{error}</h1>}
-      {!loading && !error && !quiz?.quizType && <QnAInterface />  }
+      {!loading && !error && quiz?.quizType && <QnAInterface />  }
 
-      {!loading && !error && quiz?.quizType && <PollInterface />  }
+      {!loading && !error && !quiz?.quizType && <PollInterface />  }
   
     </div>
   );

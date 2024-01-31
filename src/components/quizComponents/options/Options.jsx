@@ -15,8 +15,16 @@ const Options = ({
 }) => {
   const [optCnt, setOptCnt] = useState(2);
 
-  //local state to store option
+  //local state to store option - array of options and values - array of option vlaues
   const [option, setOption] = useState([
+    {
+      value: "",
+      correctOpt: false,
+    },
+    {
+      value:"",
+      correctOpt: false,
+    },
     {
       value: "",
       correctOpt: false,
@@ -84,7 +92,7 @@ const Options = ({
     });
   };
 
-
+quizType
   const handleRadioChange = (index) => {
     setSelectedOption(index);
   };  

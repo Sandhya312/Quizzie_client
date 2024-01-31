@@ -57,18 +57,20 @@ const AddQuestionBtn = ({questionCnt,setQuestionCnt,setQuestionInstance}) => {
             type="button"
             className={classes.addBtn}
             onClick={() => {
-              setQuestionCnt((prev) => {
-                if (prev < 5) {
-                  return prev + 1;
-                }
-                return prev;
-              });
               setQuestionInstance((prev) => {
                 if (prev < 5) {
                   return prev + 1;
                 }
                 return prev;
               });
+              
+              setQuestionCnt((prev) => {
+                if (prev < 5) {
+                  return prev + 1;
+                }
+                return prev;
+              });
+              
             }}
           >
             <svg

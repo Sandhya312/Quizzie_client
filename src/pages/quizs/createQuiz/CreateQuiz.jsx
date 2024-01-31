@@ -96,7 +96,7 @@ const [questionInstance,setQuestionInstance] = useState(0);
   };
   
 
-  const stepArr=[<CreateQuizInfo fetchQuizInfo={fetchQuizInfo} key={0} />,<QnAQuiz questions={formData.questions} questionInstance={questionInstance} addQuestion={addQuestion} setQuestionInstance={setQuestionInstance}  handleFormSubmit={handleFormSubmit} key={1} />,<ShareLink key={3} />,<PollQuiz key={2} />]
+  const stepArr=[<CreateQuizInfo fetchQuizInfo={fetchQuizInfo} key={0} />,<QnAQuiz questions={formData.questions} questionInstance={questionInstance}  addQuestion={addQuestion} setQuestionInstance={setQuestionInstance}  handleFormSubmit={handleFormSubmit} key={1} />,<ShareLink key={3} />,<PollQuiz key={2} />]
 
   const Modal_Styles = {
     width: "600px",
