@@ -1,6 +1,6 @@
 import classes from "./signup.module.css";
 import Signup from "./Signup";
-import Login from "./login";
+import Login from "./Login";
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../../store/authSlice/authSlice";
 
