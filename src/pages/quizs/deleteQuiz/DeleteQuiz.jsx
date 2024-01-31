@@ -26,7 +26,6 @@ const DeleteQuiz = () => {
   const isOpen = useSelector((state) => state.modal.isOpen);
   const {id} = useParams();
   const navigate = useNavigate();
-  console.log("id",id);
 
   const deleteQuizHandler = () =>{
     dispatch(deleteQuiz({quizId:id,token:cookie['token']}));
@@ -43,7 +42,6 @@ const DeleteQuiz = () => {
           {isOpen && (
             <Modal>
             <h1 className={classes.heading}>Are you confirm you want to delete ?</h1>
-             {/* buttons */}
              <div className={classes.buttons}>
               <button className={classes.continueBtn} onClick={deleteQuizHandler} type="submit">Confirm Delete</button>
               <button onClick={onCloseHandler}>Cancel</button>

@@ -27,7 +27,6 @@ const formSlice = createSlice({
             else {
                 state.currentStep += 1;
             }
-            console.log(state.currentStep);
         },
         prevStep(state) {
             if (state.currentStep <= 0) {
@@ -40,7 +39,6 @@ const formSlice = createSlice({
         },
         setQyizType(state, action) {
             state.quizType = action.payload;
-            console.log(action.payload, 'payload', state.quizType);
 
         },
         resetStep(state) {
@@ -48,7 +46,6 @@ const formSlice = createSlice({
         },
         setStep1(state, action) {
             state.step1 = action.payload;
-            console.log(action.payload, 'payloadstep1', state.step1);
         },
         setquestionTitle(state, action) {
             if (state.step2.questions.length !== 0) {

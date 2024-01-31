@@ -17,13 +17,10 @@ const QuizInterface = () => {
   const error = useSelector(state=>state.quizDb.error);
   const quiz = useSelector(state=>state.quizDb.singleQuiz);
   
-  console.log(quiz.quizType,"20");
-
   useEffect(()=>{
     dispatch(getQuiz({quizId:id}));
   },[id,dispatch])
 
-  console.log(quiz,quiz.quizType,loading,error,"27");
 
   return (
     <div className={classes.parent}>

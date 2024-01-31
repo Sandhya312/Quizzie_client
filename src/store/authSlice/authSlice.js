@@ -11,13 +11,10 @@ const baseUrl = "https://quizzie-server.cyclic.app";
         try{
         const response = await axios.post(`${baseUrl}/auth/signup`,data);
         const result = await response.data;
-        console.log(result,response);
         if(response.status===200){
-            console.log("success",result);
             return result;
         }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -31,13 +28,10 @@ const baseUrl = "https://quizzie-server.cyclic.app";
         try{
             const response = await axios.post(`${baseUrl}/auth/login`,data);
             const result = await response.data;
-            console.log(result,response);
             if(response.status===200){
-                console.log("success",result);
                 return result;
             }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -52,13 +46,10 @@ const baseUrl = "https://quizzie-server.cyclic.app";
             { headers: { authorization: `Bearer ${data.token}` } }
             );
             const result = await response.data;
-            console.log(result,response);
             if(response.status===200){
-                console.log("success",result);
                 return result;
             }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -84,31 +75,26 @@ const authSlice = createSlice({
         })
         .addCase(signupUser.fulfilled,(state,action)=>{
             state.loading = false;
-            console.log("48",action.payload);
             state.user = action.payload;
             state.isRegistered = true;
             state.isAuthenticated = true;
         })
         .addCase(signupUser.rejected,(state,action)=>{
             state.loading = false;
-            console.log("54",action.payload);
             state.error = action.payload;
         })
         .addCase(loginUser.pending,(state)=>{
             state.loading = true;
         })
         .addCase(loginUser.fulfilled,(state,action)=>{
-            console.log("86",action.payload);
             state.user = action.payload.user;
             state.token = action.payload.token;
-            console.log("88",state.user,state.token);
             state.isLoggedIn = true;
             state.isAuthenticated=true;
             state.loading = false;
 
         })
         .addCase(loginUser.rejected,(state,action)=>{
-            console.log("92",action.payload);
             state.error = action.payload;
             state.loading = false;
 
@@ -118,8 +104,7 @@ const authSlice = createSlice({
             state.loading = true;
         })
 
-        .addCase(logoutUser.fulfilled,(state,action)=>{
-            console.log("122",action.payload);
+        .addCase(logoutUser.fulfilled,(state)=>{
             state.user = null;
             state.token = null;
             state.isLoggedIn = false;

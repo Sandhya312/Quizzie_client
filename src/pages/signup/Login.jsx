@@ -19,7 +19,6 @@ const Login = () => {
 
   const loginHandler=async(e)=>{
       e.preventDefault()
-      console.log('login',e.target.email.value,e.target.password.value);
       const email = e.target.email.value;
       const password = e.target.password.value;
       
@@ -31,20 +30,14 @@ const Login = () => {
           
           dispatch(authActions.login());
           if(cookie['token']==='undefined' || !cookie['token']){
-            console.log('token',token);
             setCookie('token',token,{path:'/',maxAge: 3600}, 
             
             );
     
-         }else{
-          console.log('45token',token);
-  
          }
 
           if(cookieUser['user']==='undefined' || !cookieUser['user']){
             setCookieUser('user',user,{path:'/', maxAge: 3600});
-          }else{
-            console.log('user',cookieUser['user']);
           }
 
          navigate('/dashboard');
@@ -52,7 +45,6 @@ const Login = () => {
        
       }catch(err){
         alert(err);
-        console.log(err);
       }
      
   }

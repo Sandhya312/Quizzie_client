@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import classes from "../quizInterface.module.css";
-import { setScore,setQuestionAnalysis } from "../../../../store/quizSlice/quizSlice";
+import { setScore } from "../../../../store/quizSlice/quizSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -15,12 +15,11 @@ const QnAInterface = () => {
   const score = useSelector((state) => state.quizDb.score);
   const quiz = useSelector((state) => state.quizDb.singleQuiz);
 
- 
+ const imgUrl = "https://source.unsplash.com/random/300x300";
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [timer, setTimer] = useState(5);
   
-  // const [score,setScore]=useState(0);
   const [questionAnalysis, setQuestionAnalysis] = useState(
     Array.from({ length: quiz?.questions?.length }, () => ({
       "people Attempted the question": 0,
@@ -64,7 +63,6 @@ const QnAInterface = () => {
           "people Answered Incorrectly": 0,
         });
       }
-      console.log("80prev", prev);
       return prev;
     });
 
@@ -83,7 +81,6 @@ const QnAInterface = () => {
           return prev;
         });
         dispatch(setScore(score + 1));
-        console.log('80',score);
       } else {
         setQuestionAnalysis((prev) => {
           if (prev[questionNo]) {
@@ -126,7 +123,6 @@ const QnAInterface = () => {
             dispatch(setScore(score + 1));
           } 
       navigate("/score");
-      console.log("score", score);
     }
   }
     return (
@@ -158,17 +154,6 @@ const QnAInterface = () => {
                 }
                 onClick={() => {
                   setSelectedOption(index);
-                  // if(currentQuestion?.options[index]?.correctOpt===true){
-                  //   setScore((prev)=>prev+1);
-                  // }
-                  console.log(
-                    "option" +
-                      index +
-                      "selected" +
-                      currentQuestion?.options[index]?.correctOpt +
-                      "score" +
-                      score
-                  );
                 }}
               >
                 {(() => {
@@ -184,7 +169,9 @@ const QnAInterface = () => {
                     case 1:
                       return (
                         <img
-                          src="https://source.unsplash.com/random/300x300"
+                          src= {currentQuestion
+                            ? currentQuestion.options[index].value[1]
+                            : imgUrl}
                           alt={`option${index}`}
                         />
                       );

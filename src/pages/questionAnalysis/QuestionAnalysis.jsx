@@ -7,136 +7,12 @@ import { useCookies } from "react-cookie";
 import Loader from "../../components/commonComponents/loader/Loader";
 import { useParams } from "react-router-dom";
 
-//     "name": "js quiz",
-//     questions: [
-//       {
-//         title: "react quiz",
-//         type: 1,
-//         impression: [
-//             {
-//                 "people Answered Incorrectly": 455
-//               },
-//               {
-//                 "people Answered Correctly":345
-//               },
-//               {
-//                 "people Attempted the question": 456
-//               },
-//         ],
-//         options: [
-//           {
-//             option1: "d",
-//           },
-//           {
-//             option2: "a",
-//           },
-//           {
-//             option3: "djf;sd",
-//           },
-//           {
-//             option4: "s;dkfjdkf",
-//           },
-//         ],
-//       },
-//       {
-//         title: "nodejs quiz",
-//         type: 1,
-//         impression: [
-//             {
-//                 "people Answered Incorrectly": 455
-//               },
-//               {
-//                 "people Answered Correctly":345
-//               },
-//               {
-//                 "people Attempted the question": 456
-//               },
-//         ],
-//         options: [
-//           {
-//             option1: "d",
-//           },
-//           {
-//             option2: "a",
-//           },
-//           {
-//             option3: "djf;sd",
-//           },
-//           {
-//             option4: "s;dkfjdkf",
-//           },
-//         ],
-//       },
-//       {
-//           title: "express quiz",
-//           type: 1,
-//           impression: [
-//             {
-//                 "people Answered Incorrectly": 455
-//               },
-//               {
-//                 "people Answered Correctly":345
-//               },
-//               {
-//                 "people Attempted the question": 456
-//               },
-//           ],
-//           options: [
-//             {
-//               option1: "d",
-//             },
-//             {
-//               option2: "a",
-//             },
-//             {
-//               option3: "djf;sd",
-//             },
-//             {
-//               option4: "s;dkfjdkf",
-//             },
-//           ],
-//         },
-//         {
-//           title: "mongo quiz",
-//           type: 1,
-//           impression: [
-//             {
-//               "people Answered Incorrectly": 455
-//             },
-//             {
-//               "people Answered Correctly":345
-//             },
-//             {
-//               "people Attempted the question": 456
-//             },
-            
-//           ],
-//           options: [
-//             {
-//               option1: "d",
-//             },
-//             {
-//               option2: "a",
-//             },
-//             {
-//               option3: "djf;sd",
-//             },
-//             {
-//               option4: "s;dkfjdkf",
-//             },
-//           ],
-//         },
-//     ],
-//   };
-
 const QuestionAnalysis = () => {
 
   const dispatch = useDispatch();
 
   // eslint-disable-next-line no-unused-vars
   const [cookie,setCookie] =useCookies(['token']);
-  // eslint-disable-next-line no-unused-vars
-  const [cookieUser,setCookieUser] =useCookies(['user']);
 
 
   useEffect(()=>{
@@ -144,20 +20,12 @@ const QuestionAnalysis = () => {
     dispatch(getQuizAnalytics({token:cookie['token'],id}));
   },[])
 
-  const analytics = useSelector(state=>state.quizDb.analytics);
-  const quizType = useSelector(state=>state.quizDb.quizType);
   const loading = useSelector(state=>state.quizDb.loading);
   const quiz = useSelector(state=>state.quizDb.singleQuiz);
 
 
-  console.log("analytics",analytics,quizType,quiz);
-
   const {id} = useParams();
   
-
-
-  
-//   const questions = quiz.questions;
  if(loading){
     return <Loader/>
  }

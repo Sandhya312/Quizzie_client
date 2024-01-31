@@ -25,16 +25,10 @@ const Analytics = () => {
   const loading = useSelector(state=>state.quizDb.loading);
   const quizStats=useSelector(state=>state.quizDb.stats);
 
-  console.log("quizStats",quizStats);
-  
-  console.log("quizs",quizs);
-
 
   useEffect(()=>{
     dispatch(getQuizs({token:cookie['token'],userId:cookieUser['user']}));
   },[cookie,cookieUser,dispatch,quizs.length])
-
-
 
  const updateHandler=() =>{
   dispatch(modalActions.openModal());
@@ -64,7 +58,6 @@ const Analytics = () => {
   };
 
   const singleQuiz = (id) =>{
-     console.log("id",id);
      dispatch(getQuiz({quizId:id,token:cookie['token']}));
   }
 
@@ -132,7 +125,7 @@ const Analytics = () => {
                     </svg>
                   </button>
 
-                  <CopyToClipboard text={`https://quizzie/quiz/${quiz._id}` } onCopy={handleCopy}>
+                  <CopyToClipboard text={`https://quiizzie.netlify.app/quiz/${quiz._id}` } onCopy={handleCopy}>
                     <button >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -2,7 +2,6 @@
 import classes from "./signup.module.css";
 import { useState} from "react";
 import { useDispatch ,useSelector} from "react-redux";
-import { authActions } from "../../store/authSlice/authSlice";
 import { signupUser } from "../../store/authSlice/authSlice";
 import Loader from "../../components/commonComponents/loader/Loader";
 
@@ -18,8 +17,6 @@ const Signup = () => {
     confirmPassword: "",
   });
 
-
-
   const [errors, setErrors] = useState({});
 
 
@@ -32,13 +29,10 @@ const Signup = () => {
    
      dispatch(signupUser(signupFormData));
     
-     console.log("errmsg",errMsg);
      // If all fields are valid, dispatch the registration action
      if (!errMsg ) {
       console.log(signupFormData);
-      //  dispatch(authActions.register(signupFormData));
      } else {
-      console.log("errmsg",errMsg);
       alert(errMsg);
        return;
      }

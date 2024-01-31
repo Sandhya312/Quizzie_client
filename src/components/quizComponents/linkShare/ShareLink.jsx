@@ -1,24 +1,29 @@
+/* eslint-disable no-unused-vars */
 
 import classes from "./shareLink.module.css";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 import { modalActions } from "../../../store/modalSlice/modalSlice";
 import { formActions } from "../../../store/multistepSlice/formSlice";
+import PropTypes from 'prop-types';
+import Loader from "../../commonComponents/loader/Loader";
 
-const ShareLink = () => {
+const ShareLink = ({quizId}) => {
 
   const dispatch=useDispatch();
+  const loading = useSelector(state=>state.quizDb.loading);
 
   const onCloseHandler = () => {
     dispatch(modalActions.closeModal());
      dispatch(formActions.resetStep());
+     
   }
     const[isCopied,setIsCopied]= useState(false);
     // eslint-disable-next-line no-unused-vars
-    const [text,setText] = useState('https://quiziee.com/quiz/565440394958548594');
+    const [text,setText] = useState('https://quiizzie.netlify.app/quiz/65b75fe9db6852bf611c3a75');
     
     const notify = () => toast( "✔️Link Copied!",{
         position:"top-right",
@@ -34,11 +39,11 @@ const ShareLink = () => {
         },2000)
     }
 
-  // const Modal_Styles = {
-  //   width: "600px",
-  //   height: "350px",
-    
-  // };
+    if(loading){
+      return <Loader />
+    }
+ 
+    console.log(quizId)
 
   return (
     <div>
@@ -68,11 +73,11 @@ const ShareLink = () => {
             {/* share link body */}
             <div className={classes.share_link_body}>
                 <h3>Congrats your Quiz is Published!</h3>
-                <input type="text" placeholder="Your link is here" name="quiz_link" readOnly value={text} />
+                <input type="text" placeholder="Your link is here" name="quiz_link" readOnly value={`https://quiizzie.netlify.app/quiz/${quizId}`} />
             </div>
 
             {/* share link button*/}
-          <CopyToClipboard text={text} onCopy={handleCopy} >
+          <CopyToClipboard text={`https://quiizzie.netlify.app/quiz/${quizId}`} onCopy={handleCopy} >
           <div className={classes.share_link_btn_div}>
                 <button type="button" className={classes.share_link_btn} >Share Link</button>
             </div>
@@ -82,6 +87,11 @@ const ShareLink = () => {
     </div>
   );
 };
+
+
+ShareLink.propTypes = {
+  quizId:PropTypes.string.isRequired,
+}
 
 
 

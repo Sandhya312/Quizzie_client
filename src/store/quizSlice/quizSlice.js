@@ -17,7 +17,6 @@ export const getQuizs = createAsyncThunk(
                 return result;
             }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -32,11 +31,9 @@ export const getQuiz = createAsyncThunk(
             );
             const result = await response.data;
             if(response.status===200){
-                console.log(result);
                 return result;
             }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -52,11 +49,9 @@ export const getQuizAnalytics = createAsyncThunk(
             );
             const result = await response.data;
             if(response.status===200){
-                console.log(result);
                 return result;
             }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -72,11 +67,9 @@ export const createQuiz = createAsyncThunk(
             );
             const result = await response.data;
             if(response.status===200){
-                console.log(result);
                 return result;
             }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -89,11 +82,9 @@ export const setQuestionAnalysis = createAsyncThunk(
             const response = await axios.post(`${baseUrl}/api/quiz/question/${data.id}/analysis`,data.analysis);
             const result = await response.data;
             if(response.status===200){
-                console.log(result);
                 return result;
             }
         }catch(err){
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -105,10 +96,7 @@ export const setQuestionAnalysis = createAsyncThunk(
 //delete quiz
 export const deleteQuiz = createAsyncThunk(
     "deleteQuiz", async(data,{rejectWithValue})=>{
-        // const currentUser = quizSlice.getInitialState().currentUser;
-        // console.log("Current quizArr:", currentUser);
-        const tokeeen = quizSlice.getInitialState().token;
-        console.log("Current quizArr:", tokeeen);
+ 
         try{
          
             const response = await axios.delete(`${baseUrl}/api/quiz/${data.quizId}`,
@@ -116,7 +104,6 @@ export const deleteQuiz = createAsyncThunk(
             );
             const result = await response.data;
 
-            console.log(result);
             if(response.status===200){
                 return {result,quizId:data.quizId};
             }
@@ -124,7 +111,6 @@ export const deleteQuiz = createAsyncThunk(
         }
         catch(err){
 
-            console.log(err);
             return rejectWithValue(err.response.data);
         }
     }
@@ -554,7 +540,6 @@ const quizSlice = createSlice({
             })
 
             .addCase(getQuizs.fulfilled,(state,action)=>{
-                console.log(action.payload);
                 state.stats = action.payload.stats;
                  state.quizs = action.payload.quizs;
 
@@ -564,7 +549,6 @@ const quizSlice = createSlice({
 
             .addCase(getQuizs.rejected,(state,action)=>{
                 state.error=action.payload;
-                console.log("505",state.error);
                 state.loading=false;
 
             })
@@ -574,16 +558,13 @@ const quizSlice = createSlice({
             })
 
             .addCase(deleteQuiz.fulfilled,(state,action)=>{
-                console.log("495",action.payload);
                 const quizId =action.payload.quizId;
                 state.quizs = state.quizs.filter((quiz)=>quiz._id!==quizId);
-                console.log(state.quizs);
                 state.loading=false;
             })
 
             .addCase(deleteQuiz.rejected,(state,action)=>{
                 state.error=action.payload;
-                console.log("523",state.error);
                 state.loading=false;
             })
 
@@ -592,28 +573,24 @@ const quizSlice = createSlice({
             })
 
             .addCase(getQuiz.fulfilled,(state,action)=>{
-                console.log(action.payload);
                 state.singleQuiz = action.payload;
                 state.loading=false;
             })
 
             .addCase(getQuiz.rejected,(state,action)=>{
                 state.error=action.payload;
-                console.log("537",state.error);
                 state.loading=false;
             })
             .addCase(setQuestionAnalysis.pending,(state)=>{
                 state.loading=true;
             })
 
-            .addCase(setQuestionAnalysis.fulfilled,(state,action)=>{
-                console.log(action.payload);
+            .addCase(setQuestionAnalysis.fulfilled,(state)=>{
                 state.loading=false;
             })
 
             .addCase(setQuestionAnalysis.rejected,(state,action)=>{
                 state.error=action.payload;
-                console.log("574",state.error);
                 state.loading=false;
             })
 
@@ -622,7 +599,6 @@ const quizSlice = createSlice({
             })
 
             .addCase(getQuizAnalytics.fulfilled,(state,action)=>{
-                console.log(action.payload);
                 state.analytics = action.payload.analytics;
                 state.quizType = action.payload.quizType;
                 state.loading=false;
@@ -630,7 +606,6 @@ const quizSlice = createSlice({
 
             .addCase(getQuizAnalytics.rejected,(state,action)=>{
                 state.error=action.payload;
-                console.log("609",state.error);
                 state.loading=false;
             })
 
@@ -638,14 +613,12 @@ const quizSlice = createSlice({
                 state.loading=true;
             })
 
-            .addCase(createQuiz.fulfilled,(state,action)=>{
-                console.log(action.payload);
+            .addCase(createQuiz.fulfilled,(state)=>{
                 state.loading=false;
             })
 
             .addCase(createQuiz.rejected,(state,action)=>{
                 state.error=action.payload;
-                console.log("648",state.error);
                 state.loading=false;
             })
     },
@@ -662,7 +635,6 @@ const quizSlice = createSlice({
         },
         setScore:(state,action)=>{
             state.score = action.payload;
-            console.log("score",state.score);
         }
 
        

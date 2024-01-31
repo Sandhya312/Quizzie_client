@@ -1,5 +1,5 @@
+/* eslint-disable no-unused-vars */
 import classes from "./questionInterface.module.css";
-// import Options from "../../options/Options";
 import Timer from "../../timer/Timer";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { formActions } from "../../../../store/multistepSlice/formSlice";
 import Proptypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
+const QuestionInterface = ({ questions, quizType, questionInstance, addQuestion }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,8 +21,7 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
 
   const [optCnt, setOptCnt] = useState(2);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [quizType, setQuizType] = useState("QnA");
-  const [optType, setOptType] = useState("text"); // ["text","image","textImage"
+  const [optType, setOptType] = useState("text"); 
   const [questName, setQuestName] = useState("");
 
   //local state to store option - array of options and values - array of option vlaues
@@ -48,7 +47,6 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
 
   useEffect(()=>{
 
-     const optarr= options.filter((option)=>option.value[0] !== "");
 
     addQuestion({
       title: questName,
@@ -61,13 +59,9 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
   
 
   useEffect(() => {
-    // Update local form data when the selected form instance changes
-    console.log("questions:", questions);
-    console.log("questionInstance:", questionInstance);
-    console.log(questions[questionInstance]);
+
     const selectedQuestion = questions[questionInstance];
    
-    console.log("selectedQuestion:", selectedQuestion);
     setQuestName(selectedQuestion ? selectedQuestion.title || "" : "");
     setOptions(selectedQuestion ? selectedQuestion.options : [
       {
@@ -87,7 +81,6 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
         correctOpt: false,
       },
     ]);
-    console.log("optins", options);
   }, [questionInstance, questions, options]);
 
   const handleOptionChange = (e) => {
@@ -97,11 +90,6 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
   const questionNameHandler = (e) => {
     setQuestName(e.target.value);
 
-    
-
-    //parent state update
-   
-    // dispatch(formActions.setquestionTitle(e.target.value));
   };
 
   const optionHandler = (e) => {
@@ -115,6 +103,7 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
             return {
               ...option,
               value: [value], // Replace the existing array with a new array containing the current value
+              correctOpt: selectedOption === indexValue ? true : false,
             };
           }
           return option;
@@ -137,7 +126,6 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
     }
 
     if(optType === 'text_Image'){
-      console.log('Text Image Selected');
       setOptions((prevOptions) => {
         return prevOptions.map((option, index) => {
           if (index === indexValue) {
@@ -151,14 +139,12 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
       });
     }
 
-    console.log('133',options)
     
   };
 
 
   const imageInputHandler = (e)=>{
     const valuee = e.target.value;
-    console.log('value',valuee);
     const indexValue = parseInt(e.target.id);
     setOptions((prevOptions) => {
       return prevOptions.map((option, index) => {
@@ -173,16 +159,7 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
         return option;
       });
     });
-    // setOptions((prevOptions) => {
-    //   console.log('prevOptions',prevOptions[indexValue].value,prevOptions[indexValue]?.value[1])
-    //   if(prevOptions[indexValue].value.length === 1){
-    //     prevOptions[indexValue].value.push("");
-    //   }
-    //   prevOptions[indexValue].value[1] = value;
-    //   console.log('prevOptions',prevOptions[indexValue].value,prevOptions[indexValue]?.value[1])
 
-    //   return prevOptions;
-    // });
   }
  
   
@@ -259,8 +236,6 @@ const QuestionInterface = ({ questions, questionInstance, addQuestion }) => {
         </div>
 
         <div className={classes.option_timer}>
-          {/* options */}
-          {/* <Options setOptions={setOptions} options={options} questionInstance={questionInstance}  optionType={optType} quizType="QnA" /> */}
 
           <div className={classes.options}>
             {Array.from({ length: optCnt }).map((_, index) => (
@@ -452,6 +427,7 @@ QuestionInterface.propTypes = {
   questions: Proptypes.array.isRequired,
   questionInstance: Proptypes.number.isRequired,
   addQuestion: Proptypes.func.isRequired,
+  quizType: Proptypes.string.isRequired,
 };
 
 export default QuestionInterface;
