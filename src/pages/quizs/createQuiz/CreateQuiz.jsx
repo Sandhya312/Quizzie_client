@@ -29,8 +29,8 @@ const CreateQuiz = () => {
     "name":"",
      "quizType":0,
      "impressions":0,
-     "createdBy":"",
-     "timer":0,
+     "createdBy":cookieUser.user,
+     "timer":5,
      "questions":[
         {
             "title":"",
@@ -108,15 +108,16 @@ const [questionInstance,setQuestionInstance] = useState(0);
       console.log(`${key}: ${value}` + " " + "form data");
      
       if(key==='timer'){
-        timer=value;
+      
+        setFormData((prev)=>{
+          prev.timer=value;
+          prev.createdBy=cookieUser.user;
+          return prev;
+        })
       }
     });
   
-    setFormData((prev)=>{
-      prev.timer=timer;
-      prev.createdBy=cookieUser.user;
-      return prev;
-    })
+    
 
     console.log("form data state",formData,cookies.token,cookieUser.user);
     
