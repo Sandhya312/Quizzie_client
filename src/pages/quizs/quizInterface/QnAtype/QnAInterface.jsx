@@ -189,7 +189,9 @@ const QnAInterface = () => {
                               : `option${index}`}{" "}
                           </p>
                           <img
-                            src="https://source.unsplash.com/random/300x300"
+                            src= {currentQuestion
+                              ? currentQuestion.options[index].value[1]
+                              : imgUrl}
                             alt={`option${index}`}
                           />
                         </div>
