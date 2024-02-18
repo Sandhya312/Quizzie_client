@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import classes from "../quizInterface.module.css";
-import { setScore ,setQuizImpression,} from "../../../../store/quizSlice/quizSlice";
+import { setScore ,setQuizImpression,setQuestionAnalysiss} from "../../../../store/quizSlice/quizSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -127,6 +127,7 @@ const QnAInterface = () => {
       }
       dispatch(setQuizImpression({quiz_impression:impression,id:id}))
 
+    dispatch(setQuestionAnalysiss({analysis:questionAnalysis,id}))
       navigate("/score");
     }
   };

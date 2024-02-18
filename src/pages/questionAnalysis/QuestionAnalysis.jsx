@@ -45,17 +45,48 @@ const QuestionAnalysis = () => {
       </div>
 
       <div className={classes.questions}>
-      { quiz?.questions?.map((question, i) => {
+      {/* { quiz?.questions?.map((question, i) => {
+        return (
+          <div key={i} className={classes.question}>
+            <h4 className={classes.question_name}>Q{i+1}. {question.title}</h4>
+
+            
+             <div className={classes.questions_box}>
+                
+            {question.analysis.map((question, i) => {
+              return <QuestionAnalysisCard question={question} key={i} />;
+            })}
+            
+             </div>
+             <hr 
+              style={{
+                width:"100%",
+                strokewidth: "2px",
+                 stroke: "#D7D7D7",
+                 margin: "10px 0",
+              }}
+             />
+          </div>
+        );
+      })} */}
+
+{ quiz?.questions?.map((question, i) => {
         return (
           <div key={i} className={classes.question}>
             <h4 className={classes.question_name}>Q{i+1}. {question.title}</h4>
 
             {/* question analysis section */}
              <div className={classes.questions_box}>
-                
-            {question.analysis.map((question, i) => {
-              return <QuestionAnalysisCard question={question} key={i} />;
-            })}
+
+
+
+
+              {/* [{question1 analysis},{quesiton2 analaysis}] */}
+               <QuestionAnalysisCard analysis={quiz?.analysis[i]} key={i} />
+          
+          
+            
+          
             
              </div>
              <hr 

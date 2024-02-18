@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import classes from "../quizInterface.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setQuizImpression,} from "../../../../store/quizSlice/quizSlice";
-
+import { setQuizImpression,setQuestionAnalysiss} from "../../../../store/quizSlice/quizSlice";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +11,6 @@ const PollInterface = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-
   const [questionNo, setQuestionNo] = useState(0);
   const quiz = useSelector((state) => state.quizDb.singleQuiz);
   const quiz_impression = useSelector((state)=> state.quizDb.quiz_impression);
@@ -22,10 +20,14 @@ const PollInterface = () => {
 
   const imgUrl = "https://source.unsplash.com/random/300x300";
 
-  // const [score,setScore]=useState(0);
+
   const [questionAnalysis, setQuestionAnalysis] = useState(
     Array.from({ length: quiz?.questions?.length }, () => ({
-    
+      "option1": 0,
+      "option2": 0,
+      "option3": 0,
+      "option4": 0,
+
     }))
   );
 
@@ -40,6 +42,8 @@ const questionss = quiz?.questions;
 const currentQuestion = questionss ? questionss[questionNo] : null;
 
   var showQuizQuestion = () => {
+   
+    console.log("analaysis",questionAnalysis);
    
     setQuestionNo((prev) => {
       if (prev < questionss.length - 1) {
@@ -70,6 +74,7 @@ const currentQuestion = questionss ? questionss[questionNo] : null;
 
     if (questionNo === quiz?.questions?.length - 1) {
       dispatch(setQuizImpression({quiz_impression:impression,id:id}))
+      dispatch(setQuestionAnalysiss({analysis:questionAnalysis,id}))
 
       navigate("/thankyou");
     }
@@ -112,7 +117,21 @@ const currentQuestion = questionss ? questionss[questionNo] : null;
                 }
                 onClick={() => {
                   setSelectedOption(index);
-                 
+                  setQuestionAnalysis((prev) => {
+                    if (prev[questionNo]) {
+                      prev[questionNo][`option${index+1}`] += 1;
+                    } else {
+                      prev.push({
+                        "option1": 1,
+                        "option2": 0,
+                        "option3": 0,
+                        "option4": 0,
+                      
+                      });
+                    }
+                    return prev;
+                  });
+              
                 }}
               >
                 {(() => {
