@@ -59,11 +59,11 @@ const Login = () => {
       <form className={classes.signupForm} onSubmit={loginHandler} action="">
         <div>
           <label htmlFor="email">Email</label>
-          <input name="email" type="email" />
+          <input name="email" type="email" required />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input name="password" type="password" />
+          <input name="password" required type="password" />
         </div>
 
         <div className={classes.submitBtn}>

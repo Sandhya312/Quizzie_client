@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Proptypes from "prop-types";
 import classes from "./createQuizInfo.module.css";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { modalActions } from "../../../store/modalSlice/modalSlice";
 import { formActions } from "../../../store/multistepSlice/formSlice";
 import { useNavigate } from "react-router-dom";
@@ -37,6 +37,7 @@ const CreateQuizInfo = ({fetchQuizInfo}) => {
       setQuizType(1);
       dispatch(formActions.setQyizType(1));
     }
+
   };
 
   const nextStep = (e) => {
@@ -62,6 +63,7 @@ const CreateQuizInfo = ({fetchQuizInfo}) => {
               className={classes.quiz_name}
               placeholder="Quiz name"
               onChange={getQuizName}
+              required
             />
 
             {/* quiz type */}
@@ -76,6 +78,7 @@ const CreateQuizInfo = ({fetchQuizInfo}) => {
             <div className={classes.buttons}>
               <button type="button" onClick={onCloseHandler}>Cancel</button>
               <button className={classes.continueBtn} type="button"
+              disabled={quizName===""? true:false}
                 onClick={nextStep}
               >
                 {" "}

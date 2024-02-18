@@ -23,7 +23,6 @@ const CreateQuiz = () => {
   const currentStep = useSelector((state) => state.form.currentStep);
   const quizType = useSelector((state) => state.form.quizType);
 
-  const step2 = useSelector((state) => state.form.step2);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -66,6 +65,7 @@ const CreateQuiz = () => {
   const fetchQuizInfo = (data) => {
     setFormData((prev) => {
       prev.name = data.quizName;
+      prev.quizType=data.quizType;
       return prev;
     });
     setStep1Data(data);
@@ -116,7 +116,6 @@ const CreateQuiz = () => {
     });
 
     dispatch(createQuiz({ quiz: formData, token: cookies.token })).then((res)=>{
-      console.log(res.payload._id);
       setQuizId(res.payload._id);
     })
   };

@@ -29,13 +29,7 @@ const Signup = () => {
    
      dispatch(signupUser(signupFormData));
     
-     // If all fields are valid, dispatch the registration action
-     if (!errMsg ) {
-      console.log(signupFormData);
-     } else {
-      alert(errMsg);
-       return;
-     }
+
    };
    
    
@@ -43,44 +37,45 @@ const Signup = () => {
     return <Loader/>
    }
 
-   if(errMsg){
-     alert(errMsg);
-   }
+  
 
   return (
     <div className={classes.registerForm}>
+      {errMsg && <h5>{errMsg}</h5>}
         <form className={classes.signupForm} onSubmit={signupHandler}>
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="user">Name</label>
             <input
               className={errors.name ? classes.incorrect : ""}
               value={signupFormData.name}
+              required
               placeholder={errors.name && errors.name}
               onChange={(e) => setSignupFormData({ ...signupFormData, name: e.target.value })}
-              
+              id="user"
               name="name"
               type="text"
             />
           </div>
   
           <div>
-    <label htmlFor="email">Email</label>
+    <label htmlFor="emailaddrss">Email</label>
     <input
       name="email"
+      id="emailaddrss"
       value={signupFormData.email}
+      required
       className={errors.email ? classes.incorrect : ""}
       placeholder={errors.email && errors.email}
       onChange={(e) => setSignupFormData({ ...signupFormData, email: e.target.value })}
       type="email"
     />
   </div>
-  
-  
-  
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="passwrd">Password</label>
             <input
               name="password"
+              id="passwrd"
+              required
               className={errors.name ? classes.incorrect : ""}
               placeholder={errors.password && errors.password}
               value={signupFormData.password}
@@ -92,9 +87,11 @@ const Signup = () => {
           </div>
   
           <div>
-            <label htmlFor="confirm_password">Confirm Password</label>
+            <label htmlFor="confrm_pass">Confirm Password</label>
             <input
               name="confirm_password"
+              id="confrm_pass"
+              required
               value={signupFormData.confirmPassword}
               className={errors.name ? classes.incorrect : ""}
               placeholder={errors.confirmPassword && errors.confirmPassword}

@@ -22,6 +22,7 @@ const QuizInterface = () => {
   },[id,dispatch])
 
 
+
   return (
     <div className={classes.parent}>
     

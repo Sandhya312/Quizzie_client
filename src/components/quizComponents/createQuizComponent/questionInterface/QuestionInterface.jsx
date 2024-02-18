@@ -47,14 +47,26 @@ const QuestionInterface = ({ questions, quizType, questionInstance, addQuestion 
 
   useEffect(()=>{
 
+    const optTypeSelection = (optType) =>{
+       switch (optType){
+        case "text" :
+          return 0;
+        case "image":
+           return 1;
+        case "text_Image":
+          return 2;
+       }
+
+    }
+     
 
     addQuestion({
       title: questName,
-      type: 0,
+      type:optTypeSelection(optType),
       analysis: [{}, {}, {}],
       options: options,
     });
-  },[options,questName,addQuestion])
+  },[options,questName,addQuestion,optType])
 
   
 
@@ -65,19 +77,19 @@ const QuestionInterface = ({ questions, quizType, questionInstance, addQuestion 
     setQuestName(selectedQuestion ? selectedQuestion.title || "" : "");
     setOptions(selectedQuestion ? selectedQuestion.options : [
       {
-        value: [""],
+        value: ["",""],
         correctOpt: false,
       },
       {
-        value: [""],
+        value: ["",""],
         correctOpt: false,
       },
       {
-        value: [""],
+        value: ["",""],
         correctOpt: false,
       },
       {
-        value: [""],
+        value: ["",""],
         correctOpt: false,
       },
     ]);
@@ -143,24 +155,25 @@ const QuestionInterface = ({ questions, quizType, questionInstance, addQuestion 
   };
 
 
-  const imageInputHandler = (e)=>{
-    const valuee = e.target.value;
-    const indexValue = parseInt(e.target.id);
-    setOptions((prevOptions) => {
-      return prevOptions.map((option, index) => {
-        if (index === indexValue) {
-          return {
-            ...option,
-            //push new value at index 1 of value array
-            value: [option.value[0],valuee],
-      
-          };
-        }
-        return option;
-      });
+  const imageInputHandler = (e) => {
+  const valuee = e.target.value;
+  const indexValue = parseInt(e.target.id);
+  
+  setOptions((prevOptions) => {
+    return prevOptions.map((option, index) => {
+      if (index === indexValue) {
+        return {
+          ...option,
+          // Ensure the value is always defined
+          value: [option.value[0], valuee || ""], // If valuee is undefined, use an empty string
+        };
+      }
+      return option;
     });
+  });
+  e.target.value="";
+};
 
-  }
  
   
 
@@ -187,7 +200,8 @@ const QuestionInterface = ({ questions, quizType, questionInstance, addQuestion 
           <input
             className={classes.quiz_name_input}
             type="text"
-            placeholder="QnA Question"
+            required
+            placeholder={quizType==="QnA" ? "QnA Question":"Poll Question"} 
             name="question"
             value={questName}
             onChange={questionNameHandler}
@@ -402,7 +416,7 @@ const QuestionInterface = ({ questions, quizType, questionInstance, addQuestion 
           </div>
 
           {/* timer */}
-          <Timer />
+         { quizType==="QnA"? <Timer /> : null }
         </div>
       </div>
 

@@ -10,15 +10,19 @@ import { modalActions } from "../../../store/modalSlice/modalSlice";
 import { formActions } from "../../../store/multistepSlice/formSlice";
 import PropTypes from 'prop-types';
 import Loader from "../../commonComponents/loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 const ShareLink = ({quizId}) => {
 
+  const navigate = useNavigate();
   const dispatch=useDispatch();
   const loading = useSelector(state=>state.quizDb.loading);
 
   const onCloseHandler = () => {
     dispatch(modalActions.closeModal());
      dispatch(formActions.resetStep());
+     navigate("/dashboard");
+
      
   }
     const[isCopied,setIsCopied]= useState(false);
@@ -43,7 +47,6 @@ const ShareLink = ({quizId}) => {
       return <Loader />
     }
  
-    console.log(quizId)
 
   return (
     <div>

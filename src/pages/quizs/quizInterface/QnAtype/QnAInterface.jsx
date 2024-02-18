@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import classes from "../quizInterface.module.css";
-import { setScore } from "../../../../store/quizSlice/quizSlice";
+import { setScore ,setQuizImpression,} from "../../../../store/quizSlice/quizSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -14,12 +14,14 @@ const QnAInterface = () => {
   const [questionNo, setQuestionNo] = useState(0);
   const score = useSelector((state) => state.quizDb.score);
   const quiz = useSelector((state) => state.quizDb.singleQuiz);
+  const quiz_impression = useSelector((state)=> state.quizDb.quiz_impression);
 
- const imgUrl = "https://source.unsplash.com/random/300x300";
+  const imgUrl = "https://source.unsplash.com/random/300x300";
 
   const [selectedOption, setSelectedOption] = useState(null);
   const [timer, setTimer] = useState(5);
-  
+  const [impression,setImpression] = useState(quiz_impression);
+
   const [questionAnalysis, setQuestionAnalysis] = useState(
     Array.from({ length: quiz?.questions?.length }, () => ({
       "people Attempted the question": 0,
@@ -28,10 +30,10 @@ const QnAInterface = () => {
     }))
   );
 
-  useEffect(()=>{
-    dispatch(setScore(0))
+  useEffect(() => {
+    dispatch(setScore(0));
+    setImpression((prev)=>prev+1);
   },[]);
-
 
   useEffect(() => {
     if (timer === 0) {
@@ -51,8 +53,9 @@ const QnAInterface = () => {
 
   const currentQuestion = quiz?.questions ? quiz.questions[questionNo] : null;
 
-  var showQuizQuestion = () => {
 
+
+  var showQuizQuestion = () => {
     setQuestionAnalysis((prev) => {
       if (prev[questionNo]) {
         prev[questionNo]["people Attempted the question"] += 1;
@@ -65,6 +68,7 @@ const QnAInterface = () => {
       }
       return prev;
     });
+
 
     if (selectedOption !== null || selectedOption !== undefined) {
       if (currentQuestion?.options[selectedOption]?.correctOpt) {
@@ -104,129 +108,121 @@ const QnAInterface = () => {
     });
     setSelectedOption(null);
 
-
     setTimer(5);
     if (questionNo === quiz?.questions?.length - 1) {
-        if (currentQuestion?.options[selectedOption]?.correctOpt) {
-            setQuestionAnalysis((prev) => {
-              if (prev[questionNo]) {
-                prev[questionNo]["people Answered Correctly"] += 1;
-              } else {
-                prev.push({
-                  "people Attempted the question": 0,
-                  "people Answered Correctly": 1,
-                  "people Answered Incorrectly": 0,
-                });
-              }
-              return prev;
+      if (currentQuestion?.options[selectedOption]?.correctOpt) {
+        setQuestionAnalysis((prev) => {
+          if (prev[questionNo]) {
+            prev[questionNo]["people Answered Correctly"] += 1;
+          } else {
+            prev.push({
+              "people Attempted the question": 0,
+              "people Answered Correctly": 1,
+              "people Answered Incorrectly": 0,
             });
-            dispatch(setScore(score + 1));
-          } 
+          }
+          return prev;
+        });
+        dispatch(setScore(score + 1));
+      }
+      dispatch(setQuizImpression({quiz_impression:impression,id:id}))
+
       navigate("/score");
     }
+  };
+
+  let len=0;
+
+  for(let i =0;i<currentQuestion?.options?.length;i++){
+    if(currentQuestion.options[i].value[0].length!=0 || currentQuestion.options[i].value[0] !==""){
+      len++;
+    }
   }
-    return (
-      <div className={classes.quizInterface}>
-        <div className={classes.timer_quesitonNo}>
-          <div className={classes.questionNo}>
-            <p>
-              {questionNo + 1}/{currentQuestion ? quiz.questions.length : 0}
-            </p>
-          </div>
-          <div className={classes.timer}>
-            <p>00:{timer < 10 ? "0" + timer : timer}s</p>
-          </div>
-        </div>
-        <div className={classes.questionName}>
-          <h1>
-            {currentQuestion ? currentQuestion.title : "question name"}{" "}
-          </h1>
-        </div>
-        <div className={classes.options}>
-          {Array.from({ length: 4 }).map((_, index) => {
-            return (
-              <div
-                key={index}
-                className={
-                  selectedOption === index
-                    ? selectedOptionClass
-                    : classes.option
-                }
-                onClick={() => {
-                  setSelectedOption(index);
-                }}
-              >
-                {(() => {
-                  switch (currentQuestion ? currentQuestion.type : 0) {
-                    case 0:
-                      return (
-                        <p>
-                          {currentQuestion
-                            ? currentQuestion.options[index].value[0]
-                            : `option${index}`}{" "}
-                        </p>
-                      );
-                    case 1:
-                      return (
-                        <img
-                          src= {currentQuestion
-                            ? currentQuestion.options[index].value[1]
-                            : imgUrl}
-                          alt={`option${index}`}
-                        />
-                      );
 
-                    case 2:
-                      return (
-                        <div
-                          style={{
-                            display: "flex",
-                          }}
-                        >
-                          <p>
-                            {currentQuestion
-                              ? currentQuestion.options[index].value[0]
-                              : `option${index}`}{" "}
-                          </p>
-                          <img
-                            src= {currentQuestion
-                              ? currentQuestion.options[index].value[1]
-                              : imgUrl}
-                            alt={`option${index}`}
-                          />
-                        </div>
-                      );
-
-                    default:
-                      return (
-                        <p>
-                          {currentQuestion
-                            ? currentQuestion.options[index].value[0]
-                            : `option${index}`}{" "}
-                        </p>
-                      );
-                  }
-                })()}
-              </div>
-            );
-          })}
+  return (
+    <div className={classes.quizInterface}>
+      <div className={classes.timer_quesitonNo}>
+        <div className={classes.questionNo}>
+          <p>
+            {questionNo + 1}/{currentQuestion ? quiz.questions.length : 0}
+          </p>
         </div>
-        <div className={classes.submit_btn}>
-          <button
-            className={
-              selectedOption === null ? classes.disabled : classes.active
-            }
-            disabled={selectedOption === null}
-            onClick={() => {
-              showQuizQuestion();
-            }}
-          >
-            {questionNo === 3 ? "Submit" : "Next"}
-          </button>
+        <div className={classes.timer}>
+          <p>00:{timer < 10 ? "0" + timer : timer}s</p>
         </div>
       </div>
-    );
-  
+      <div className={classes.questionName}>
+        <h1>{currentQuestion ? currentQuestion.title : "question name"} </h1>
+      </div>
+      <div className={classes.options}>
+        {Array.from({ length: len }).map((_, index) => {
+
+       
+          return (
+            <div
+              key={index}
+              className={
+                selectedOption === index ? selectedOptionClass : classes.option
+              }
+              onClick={() => {
+                setSelectedOption(index);
+              }}
+            >
+              {(() => {
+                switch (currentQuestion ? currentQuestion.type : 0) {
+                  case 0:
+                    return (
+                      <p>
+                        {currentQuestion
+                          ? currentQuestion.options[index].value[0]
+                          : `option${index}`}{" "}
+                      </p>
+                    );
+                  case 1:
+                     return <img src={currentQuestion && currentQuestion?.options[index]
+                      ? currentQuestion?.options[index]?.value[0]
+                      : imgUrl} />;
+
+                  case 2:
+                    return (
+                      <div
+                        style={{
+                          display: "flex",
+                        }}
+                      >
+                        <p>
+                          {currentQuestion
+                            ? currentQuestion.options[index].value[0]
+                            : `option${index}`}{" "}
+                        </p>
+                        <img src={currentQuestion && currentQuestion?.options[index]
+              ? currentQuestion?.options[index]?.value[1]
+              : imgUrl} />
+                      </div>
+                    );
+
+                }
+              })()}
+            </div>
+          );
+        })}
+
+      </div>
+      <div className={classes.submit_btn}>
+        <button
+          className={
+            selectedOption === null ? classes.disabled : classes.active
+          }
+          disabled={selectedOption === null}
+          onClick={() => {
+            showQuizQuestion();
+          }}
+        >
+          {questionNo === 4 ? "Submit" : "Next"}
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default QnAInterface;

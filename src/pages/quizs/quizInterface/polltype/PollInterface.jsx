@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import classes from "../quizInterface.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { setQuizImpression,} from "../../../../store/quizSlice/quizSlice";
+
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -13,8 +15,12 @@ const PollInterface = () => {
 
   const [questionNo, setQuestionNo] = useState(0);
   const quiz = useSelector((state) => state.quizDb.singleQuiz);
+  const quiz_impression = useSelector((state)=> state.quizDb.quiz_impression);
 
   const [selectedOption, setSelectedOption] = useState(null);
+  const [impression,setImpression] = useState(quiz_impression);
+
+  const imgUrl = "https://source.unsplash.com/random/300x300";
 
   // const [score,setScore]=useState(0);
   const [questionAnalysis, setQuestionAnalysis] = useState(
@@ -22,6 +28,10 @@ const PollInterface = () => {
     
     }))
   );
+
+  useEffect(() => {
+    setImpression((prev)=>prev+1);
+  },[]);
 
 const questionss = quiz?.questions;
 
@@ -59,12 +69,20 @@ const currentQuestion = questionss ? questionss[questionNo] : null;
 
 
     if (questionNo === quiz?.questions?.length - 1) {
+      dispatch(setQuizImpression({quiz_impression:impression,id:id}))
+
       navigate("/thankyou");
     }
 
   }
 
+  let len=0;
 
+  for(let i =0;i<currentQuestion?.options?.length;i++){
+    if(currentQuestion.options[i].value[0].length!=0 || currentQuestion.options[i].value[0] !==""){
+      len++;
+    }
+  }
 
 
     return (
@@ -83,7 +101,7 @@ const currentQuestion = questionss ? questionss[questionNo] : null;
           </h1>
         </div>
         <div className={classes.options}>
-          {Array.from({ length: 4 }).map((_, index) => {
+          {Array.from({ length: len }).map((_, index) => {
             return (
               <div
                 key={index}
@@ -108,40 +126,30 @@ const currentQuestion = questionss ? questionss[questionNo] : null;
                         </p>
                       );
                     case 1:
-                      return (
-                        <img
-                          src="https://source.unsplash.com/random/300x300"
-                          alt={`option${index}`}
-                        />
-                      );
+                      return <img src={currentQuestion && currentQuestion?.options[index]
+                        ? currentQuestion?.options[index]?.value[0]
+                        : imgUrl} />;
 
-                    case 2:
-                      return (
-                        <div
-                          style={{
-                            display: "flex",
-                          }}
-                        >
-                          <p>
-                            {currentQuestion
-                              ? currentQuestion.options[index].value[0]
-                              : `option${index}`}{" "}
-                          </p>
-                          <img
-                            src="https://source.unsplash.com/random/300x300"
-                            alt={`option${index}`}
-                          />
-                        </div>
-                      );
-
-                    default:
-                      return (
-                        <p>
-                          {currentQuestion
-                            ? currentQuestion.options[index].value[0]
-                            : `option${index}`}{" "}
-                        </p>
-                      );
+                        case 2:
+                          return (
+                            <div
+                              style={{
+                                display: "flex",
+                              }}
+                            >
+                              <p>
+                                {currentQuestion
+                                  ? currentQuestion.options[index].value[0]
+                                  : `option${index}`}{" "}
+                              </p>
+                              <img src={currentQuestion && currentQuestion?.options[index]
+                    ? currentQuestion?.options[index]?.value[1]
+                    : imgUrl} />
+                            </div>
+                          );
+      
+                      
+                   
                   }
                 })()}
               </div>
@@ -158,7 +166,7 @@ const currentQuestion = questionss ? questionss[questionNo] : null;
               showQuizQuestion();
             }}
           >
-            {questionNo === 3 ? "Submit" : "Next"}
+            {questionNo === 4? "Submit" : "Next"}
           </button>
         </div>
       </div>
