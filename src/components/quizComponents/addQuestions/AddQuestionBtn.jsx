@@ -30,7 +30,22 @@ const AddQuestionBtn = ({questionCnt,setQuestionCnt,setQuestionInstance}) => {
                style={{
                     marginRight:"1rem",
               }}>
-                {index + 1} <span className={classes.crossBtn}>
+                {index + 1} <span className={classes.crossBtn} onClick={()=>{
+              setQuestionInstance((prev) => {
+                if (prev >1) {
+                  handleButtonClick(prev-1);
+                  return prev - 1;
+                }
+                return prev;
+              });
+              setQuestionCnt((prev) => {
+                if (prev > 1) {
+                  return prev - 1;
+                }
+                return prev;
+              });
+              
+            }} >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="15"
@@ -59,11 +74,11 @@ const AddQuestionBtn = ({questionCnt,setQuestionCnt,setQuestionInstance}) => {
             onClick={() => {
               setQuestionInstance((prev) => {
                 if (prev < 5) {
+                  handleButtonClick(prev+1);
                   return prev + 1;
                 }
                 return prev;
               });
-              
               setQuestionCnt((prev) => {
                 if (prev < 5) {
                   return prev + 1;
