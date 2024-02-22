@@ -43,7 +43,6 @@ const currentQuestion = questionss ? questionss[questionNo] : null;
 
   var showQuizQuestion = () => {
    
-    console.log("analaysis",questionAnalysis);
    
     setQuestionNo((prev) => {
       if (prev < questionss.length - 1) {

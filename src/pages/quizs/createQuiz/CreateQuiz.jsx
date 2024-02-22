@@ -87,35 +87,31 @@ const CreateQuiz = () => {
     // Accessing form data using FormData
     const formDataa = new FormData(e.target);
 
+    let obj =formData;
+
     // Logging form data
     formDataa.forEach((value, key) => {
       if (key === "timer") {
         if(value==="OFF"){
-          setFormData((prev) => {
-            prev.timer = 0;
-            prev.createdBy = cookieUser.user;
-            return prev;
-          });
+          obj.timer=0;
+       
         }
        if(value==="5 sec"){
-        setFormData((prev) => {
-          prev.timer = 5;
-          prev.createdBy = cookieUser.user;
-          return prev;
-        });
+        obj.timer=5;
+      
        }
 
        if(value==="10 sec"){
-        setFormData((prev) => {
-          prev.timer = 10;
-          prev.createdBy = cookieUser.user;
-          return prev;
-        });
+        obj.timer=10;
+        
        }
       }
     });
+   
 
-    dispatch(createQuiz({ quiz: formData, token: cookies.token })).then((res)=>{
+   
+
+    dispatch(createQuiz({ quiz: obj, token: cookies.token })).then((res)=>{
       setQuizId(res.payload._id);
     })
   };
@@ -127,7 +123,7 @@ const CreateQuiz = () => {
       questionInstance={questionInstance}
       addQuestion={addQuestion}
       setQuestionInstance={setQuestionInstance}
-      handleFormSubmit={handleFormSubmit}
+  
       key={1}
     />,
     <ShareLink key={3} quizId={quizId} />,
@@ -135,7 +131,6 @@ const CreateQuiz = () => {
     questionInstance={questionInstance}
     addQuestion={addQuestion}
     setQuestionInstance={setQuestionInstance}
-    handleFormSubmit={handleFormSubmit}
     key={2} />,
   ];
 

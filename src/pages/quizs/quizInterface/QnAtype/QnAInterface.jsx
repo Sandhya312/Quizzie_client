@@ -19,7 +19,7 @@ const QnAInterface = () => {
   const imgUrl = "https://source.unsplash.com/random/300x300";
 
   const [selectedOption, setSelectedOption] = useState(null);
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(quiz.timer);
   const [impression,setImpression] = useState(quiz_impression);
 
   const [questionAnalysis, setQuestionAnalysis] = useState(
@@ -108,7 +108,7 @@ const QnAInterface = () => {
     });
     setSelectedOption(null);
 
-    setTimer(5);
+    setTimer(quiz.timer);
     if (questionNo === quiz?.questions?.length - 1) {
       if (currentQuestion?.options[selectedOption]?.correctOpt) {
         setQuestionAnalysis((prev) => {

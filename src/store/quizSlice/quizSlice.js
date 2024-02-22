@@ -96,7 +96,6 @@ export const setQuizImpression = createAsyncThunk(
 //set question analysis
 export const setQuestionAnalysiss = createAsyncThunk(
     "setQuestionAnalysiss", async(data,{rejectWithValue})=>{
-        console.log("data",data);
         try{
             const response = await axios.post(`${baseUrl}/api/quiz/${data.id}/question/analysis`,data);
             const result = await response.data;
