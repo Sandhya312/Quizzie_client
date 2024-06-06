@@ -437,11 +437,11 @@ const QuestionInterface = ({ questions, quizType, questionInstance, addQuestion 
   );
 };
 
-QuestionInterface.propTypes = {
-  questions: Proptypes.array.isRequired,
-  questionInstance: Proptypes.number.isRequired,
-  addQuestion: Proptypes.func.isRequired,
-  quizType: Proptypes.string.isRequired,
-};
+// QuestionInterface.propTypes = {
+//   questions: Proptypes.array.isRequired,
+//   questionInstance: Proptypes.number.isRequired,
+//   addQuestion: Proptypes.func.isRequired,
+//   quizType: Proptypes.string.isRequired,
+// };
 
 export default QuestionInterface;

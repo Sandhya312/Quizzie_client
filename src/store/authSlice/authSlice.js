@@ -2,7 +2,7 @@
 import {createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseUrl = "https://quizzie-server.cyclic.app";
+const baseUrl = "https://quizzie-server-01zs.onrender.com";
 
   //signup user
   export const signupUser = createAsyncThunk(

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const baseUrl = "https://quizzie-server.cyclic.app";
+const baseUrl = "https://quizzie-server-01zs.onrender.com";
 
 //get all quiz
 export const getQuizs = createAsyncThunk(

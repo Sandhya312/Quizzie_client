@@ -89,9 +89,11 @@ const DashboardContent = () => {
         {/* trending quiz list */}
         <div className={classes.trending_quiz_list}>
           {loading && <Loader />}
+
           {!loading && quizs.length === 0 && (
             <h1 style={{ color: "#FF4B4B" }}>No Quiz Created</h1>
           )}
+        
           {!loading &&
             quizs.length !== 0 &&
             quizs.map((quiz, index) => {

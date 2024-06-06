@@ -10,6 +10,7 @@ const Register = () => {
    const isRegistered= useSelector(state=>state.auth.isRegistered);
    const dispatch = useDispatch();
 
+   
    const sigupForm = () =>{
     dispatch(authActions.showSignup());
    }
